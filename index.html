@@ -382,24 +382,65 @@
 
                     {/* Modal Tutorial / Bantuan */}
                     {showHelp && (
-                        <div className="fixed inset-0 bg-slate-900/95 z-[100] flex flex-col p-4 overflow-y-auto">
-                            <div className="bg-slate-800 rounded-xl w-full max-w-md mx-auto my-auto border border-slate-600 shadow-2xl relative">
-                                <button onClick={() => setShowHelp(false)} className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-slate-700 rounded-full text-white font-bold">✕</button>
-                                <div className="p-4 sm:p-6">
-                                    <h2 className="text-xl font-black text-emerald-400 border-b border-slate-600 pb-2 mb-4">Panduan CYBERIA</h2>
-                                    <div className="space-y-4 text-xs sm:text-sm text-slate-300">
-                                        <p>Jaga <strong>Kesehatan Mental (MH)</strong> Anda jangan sampai 0! Gunakan kartu Hijau untuk menangkis, dan Kuning untuk memulihkan.</p>
-                                        <div className="bg-slate-900 p-3 rounded-lg border border-slate-700 text-center">
-                                            <h3 className="font-bold text-amber-400 mb-2">Cara Menangkis Serangan</h3>
-                                            <div className="flex items-center justify-center gap-2 mb-2">
-                                                <Card card={CARD_DB.find(c => c.id === 'a1')} disabled={true} />
-                                                <span className="text-lg">➡️</span>
-                                                <Card card={CARD_DB.find(c => c.id === 'd1')} disabled={true} />
-                                            </div>
-                                            <p className="text-[10px]">Cocokkan label kategori yang diserang dengan label "Menangkal" pada kartu hijau milikmu.</p>
-                                        </div>
-                                        <button onClick={() => setShowHelp(false)} className="w-full py-2 bg-emerald-600 rounded-lg text-white font-bold">Mengerti!</button>
+                        <div className="fixed inset-0 bg-slate-900/95 z-[100] flex flex-col items-center justify-center p-4">
+                            <div className="bg-slate-800 rounded-xl w-full max-w-md mx-auto border border-slate-600 shadow-2xl relative flex flex-col max-h-[90dvh]">
+                                <button onClick={() => setShowHelp(false)} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-slate-700 hover:bg-red-500 rounded-full text-white font-bold z-10 transition">✕</button>
+                                
+                                {/* Header Modal */}
+                                <div className="p-4 sm:p-5 border-b border-slate-600 shrink-0">
+                                    <h2 className="text-lg sm:text-xl font-black text-emerald-400">Panduan CYBERIA</h2>
+                                </div>
+                                
+                                {/* Isi Konten Modal (Bisa di-scroll) */}
+                                <div className="p-4 sm:p-5 overflow-y-auto space-y-5 text-[10px] sm:text-xs md:text-sm text-slate-300">
+                                    
+                                    {/* Section 0: Siapa Lawanmu? */}
+                                    <div className="bg-slate-900/70 p-3 rounded-lg border border-slate-700">
+                                        <h3 className="font-bold text-cyan-400 mb-1 flex items-center gap-1.5"><span className="text-base">🤖</span> Siapa Lawanmu?</h3>
+                                        <p>Dalam dimensi virtual ini, lawanmu disebut <strong>AI (Artificial Intelligence)</strong>. AI bertindak sebagai simulasi sistem komputer yang meniru perilaku penyerang, penyebar hoax, dan <em>cyberbully</em> di dunia nyata.</p>
                                     </div>
+
+                                    {/* Section 1: MH */}
+                                    <div>
+                                        <h3 className="font-bold text-white mb-1 flex items-center gap-1.5"><span className="text-base">❤️</span> Kesehatan Mental (MH)</h3>
+                                        <p>Lihat kotak indikator di layar. <strong className="text-emerald-400">Bar Hijau</strong> di bawah adalah MH kamu (Survivor), dan <strong className="text-red-400">Bar Merah</strong> di atas adalah MH AI. Buat MH AI menjadi 0 untuk menang, dan jangan biarkan MH kamu habis!</p>
+                                    </div>
+
+                                    {/* Section 2: Draw & End */}
+                                    <div>
+                                        <h3 className="font-bold text-blue-400 mb-1 flex items-center gap-1.5"><span className="text-base">🃏</span> Tombol Draw & End</h3>
+                                        <p>Klik tombol <strong>Draw</strong> untuk mengambil 1 kartu dari deck ke tanganmu (tangan maksimal berisi 6 kartu). Jika kamu sudah tidak ingin mengeluarkan kartu lagi, klik <strong>End</strong> untuk menyerahkan giliran ke AI.</p>
+                                    </div>
+
+                                    {/* Section 3: Menyerang */}
+                                    <div>
+                                        <h3 className="font-bold text-red-400 mb-1 flex items-center gap-1.5"><span className="text-base">⚔️</span> Cara Menyerang</h3>
+                                        <p>Saat indikator menunjukkan "Giliran Anda", klik <strong>Kartu Merah (Attack)</strong> di tanganmu. Serangan otomatis akan memotong poin MH AI berdasarkan tingkat keparahan serangannya.</p>
+                                    </div>
+
+                                    {/* Section 4: Bertahan */}
+                                    <div className="bg-slate-900 p-3 rounded-lg border border-slate-700">
+                                        <h3 className="font-bold text-emerald-400 mb-2 flex items-center gap-1.5"><span className="text-base">🛡️</span> Cara Bertahan (Tangkis)</h3>
+                                        <p className="mb-3">Saat AI balik menyerang, peringatan ⚠️ akan muncul berkedip di layar. Segera cari dan klik <strong>Kartu Hijau (Defense)</strong> di tanganmu yang memiliki label <em>"Bisa Menangkal"</em> sesuai dengan serangan AI.</p>
+                                        <div className="flex items-center justify-center gap-2">
+                                            <div className="scale-75 origin-right"><Card card={CARD_DB.find(c => c.id === 'a1')} disabled={true} /></div>
+                                            <span className="text-base sm:text-lg shrink-0 text-white">➡️</span>
+                                            <div className="scale-75 origin-left"><Card card={CARD_DB.find(c => c.id === 'd1')} disabled={true} /></div>
+                                        </div>
+                                        <p className="text-[9px] sm:text-[10px] text-center mt-[-10px] text-slate-400">Contoh: Flaming (Agresi Verbal) ditangkis oleh Kartu Blokir.</p>
+                                    </div>
+
+                                    {/* Section 5: Healing */}
+                                    <div>
+                                        <h3 className="font-bold text-yellow-400 mb-1 flex items-center gap-1.5"><span className="text-base">💖</span> Pemulihan Mental</h3>
+                                        <p>Saat "Giliran Anda", kamu bisa mengklik <strong>Kartu Kuning (Wisdom)</strong> untuk beristirahat dan memulihkan poin MH kamu sendiri.</p>
+                                    </div>
+
+                                </div>
+
+                                {/* Footer Modal */}
+                                <div className="p-4 border-t border-slate-600 shrink-0">
+                                    <button onClick={() => setShowHelp(false)} className="w-full py-2.5 bg-emerald-600 active:bg-emerald-500 rounded-lg text-white font-bold shadow transition">Saya Mengerti!</button>
                                 </div>
                             </div>
                         </div>
