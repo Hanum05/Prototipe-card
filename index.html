@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CYBERIA</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,16 +14,25 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f172a; color: white; overflow-x: hidden; }
-        .card-hover:hover { transform: translateY(-15px); z-index: 50; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f172a; color: white; overflow: hidden; touch-action: none; }
+        .card-hover:hover { transform: translateY(-10px); z-index: 50; }
         .card-transition { transition: all 0.3s ease; }
         
+        /* Custom Soft Pulse agar kedipan tidak terlalu transparan */
+        @keyframes soft-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+        .animate-soft-pulse {
+            animation: soft-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
         /* Hide scrollbar for mobile swipe (Hand Container) */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Custom Scrollbar for Logs */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        /* Custom Scrollbar for Logs & Modals */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #1e293b; }
         ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #64748b; }
@@ -75,7 +84,6 @@
         // --- UTILS ---
         const generateDeck = () => {
             let deck = [];
-            // Duplicate cards to make a playable deck
             for(let i=0; i<3; i++) {
                 CARD_DB.forEach(card => {
                     deck.push({ ...card, uniqueId: Math.random().toString(36).substr(2, 9) });
@@ -85,6 +93,7 @@
         };
 
         // --- COMPONENTS ---
+        // Ukuran kartu dioptimalkan agar vertikalnya ringkas
         const Card = ({ card, onClick, disabled, hidden }) => {
             if (hidden) {
                 return (
@@ -99,24 +108,24 @@
             return (
                 <div 
                     onClick={() => !disabled && onClick(card)}
-                    className={`w-28 h-40 sm:w-32 sm:h-48 md:w-40 md:h-56 rounded-xl border-2 border-slate-900 shadow-xl flex flex-col overflow-hidden card-transition ${disabled ? 'opacity-50 cursor-not-allowed' : 'card-hover cursor-pointer'} ${card.color} flex-shrink-0 w-full`}
+                    className={`w-20 h-28 sm:w-28 sm:h-40 md:w-36 md:h-52 rounded-xl border border-slate-900 shadow-xl flex flex-col overflow-hidden card-transition ${disabled ? 'opacity-50 cursor-not-allowed' : 'card-hover cursor-pointer'} ${card.color} flex-shrink-0`}
                 >
-                    <div className="px-1 sm:px-2 py-1 bg-black bg-opacity-40 text-[10px] sm:text-xs font-bold truncate">
+                    <div className="px-1 sm:px-2 py-0.5 sm:py-1 bg-black bg-opacity-40 text-[8px] sm:text-[10px] font-bold truncate">
                         {card.name}
                     </div>
-                    <div className="flex-1 p-1 sm:p-2 flex flex-col items-center justify-center text-center bg-white bg-opacity-10 backdrop-blur-sm">
-                        {card.type === CARD_TYPES.ATTACK && <span className="text-2xl sm:text-3xl">⚔️</span>}
-                        {card.type === CARD_TYPES.DEFENSE && <span className="text-2xl sm:text-3xl">🛡️</span>}
-                        {card.type === CARD_TYPES.WISDOM && <span className="text-2xl sm:text-3xl">💖</span>}
-                        <p className="text-[9px] sm:text-[10px] md:text-xs mt-1 sm:mt-2 font-medium drop-shadow-md leading-tight">{card.desc}</p>
+                    <div className="flex-1 p-1 flex flex-col items-center justify-center text-center bg-white bg-opacity-10 backdrop-blur-sm">
+                        {card.type === CARD_TYPES.ATTACK && <span className="text-xl sm:text-3xl">⚔️</span>}
+                        {card.type === CARD_TYPES.DEFENSE && <span className="text-xl sm:text-3xl">🛡️</span>}
+                        {card.type === CARD_TYPES.WISDOM && <span className="text-xl sm:text-3xl">💖</span>}
+                        <p className="text-[7px] sm:text-[9px] md:text-xs mt-1 font-medium drop-shadow-md leading-tight line-clamp-2">{card.desc}</p>
                     </div>
                     {card.type === CARD_TYPES.DEFENSE && (
-                         <div className="px-1 sm:px-2 py-1 bg-black bg-opacity-60 text-[8px] sm:text-[9px] text-center leading-tight">
-                            Menangkal: {card.counters.join(', ')}
+                         <div className="px-1 py-0.5 bg-black bg-opacity-60 text-[6px] sm:text-[8px] text-center leading-tight truncate">
+                            Bisa Menangkal: {card.counters[0]}
                         </div>
                     )}
-                    <div className="px-1 sm:px-2 py-1 bg-black bg-opacity-40 text-[9px] sm:text-xs flex justify-between font-bold">
-                        <span>{card.type}</span>
+                    <div className="px-1 py-0.5 sm:py-1 bg-black bg-opacity-40 text-[8px] sm:text-[10px] flex justify-between font-bold">
+                        <span>{card.type.substring(0,3)}</span>
                         {card.value && <span>{card.type === CARD_TYPES.ATTACK ? `-${card.value}` : `+${card.value}`}</span>}
                     </div>
                 </div>
@@ -127,18 +136,15 @@
         const App = () => {
             const [playerMH, setPlayerMH] = React.useState(100);
             const [aiMH, setAiMH] = React.useState(100);
-            
             const [deck, setDeck] = React.useState([]);
             const [playerHand, setPlayerHand] = React.useState([]);
             const [aiHand, setAiHand] = React.useState([]);
-            
             const [turn, setTurn] = React.useState('PLAYER'); // PLAYER, AI, COUNTER
-            const [logs, setLogs] = React.useState(['Permainan Dimulai! Kalahkan serangan mental AI.']);
+            const [logs, setLogs] = React.useState(['Mulai bertahan! Kalahkan serangan mental AI.']);
             const [pendingAttack, setPendingAttack] = React.useState(null);
             const [gameOver, setGameOver] = React.useState(false);
-            const [showHelp, setShowHelp] = React.useState(false); // STATE BARU UNTUK TUTORIAL
+            const [showHelp, setShowHelp] = React.useState(false);
 
-            // Initialize Game
             React.useEffect(() => {
                 const initialDeck = generateDeck();
                 setPlayerHand(initialDeck.splice(0, 5));
@@ -146,9 +152,7 @@
                 setDeck(initialDeck);
             }, []);
 
-            const addLog = (msg) => {
-                setLogs(prev => [msg, ...prev].slice(0, 5));
-            };
+            const addLog = (msg) => setLogs(prev => [msg, ...prev].slice(0, 8));
 
             const drawCard = (isPlayer) => {
                 if (deck.length === 0) return;
@@ -156,84 +160,66 @@
                 const card = newDeck.pop();
                 setDeck(newDeck);
                 
-                if (isPlayer && playerHand.length < 6) {
-                    setPlayerHand([...playerHand, card]);
-                } else if (!isPlayer && aiHand.length < 6) {
-                    setAiHand([...aiHand, card]);
-                }
+                if (isPlayer && playerHand.length < 6) setPlayerHand([...playerHand, card]);
+                else if (!isPlayer && aiHand.length < 6) setAiHand([...aiHand, card]);
             };
 
-            // AI Logic
             const processAITurn = () => {
                 setTimeout(() => {
                     drawCard(false);
-                    
-                    if(aiHand.length === 0) {
-                        setTurn('PLAYER');
-                        return;
-                    }
+                    if(aiHand.length === 0) { setTurn('PLAYER'); return; }
 
-                    // Simple AI: Play a random card
                     const randomIndex = Math.floor(Math.random() * aiHand.length);
                     const playedCard = aiHand[randomIndex];
                     const newAiHand = aiHand.filter((_, i) => i !== randomIndex);
                     setAiHand(newAiHand);
 
-                    addLog(`AI memainkan: ${playedCard.name}`);
+                    addLog(`AI: ${playedCard.name}`);
 
                     if (playedCard.type === CARD_TYPES.ATTACK) {
                         setPendingAttack(playedCard);
-                        setTurn('COUNTER'); // Beri kesempatan player untuk menangkis
-                        addLog(`⚠️ AWAS! AI menyerang dengan ${playedCard.category}! Punya kartu tangkisan?`);
+                        setTurn('COUNTER'); 
+                        addLog(`⚠️ AWAS! Diserang! Ada kartu Hijau?`);
                     } else if (playedCard.type === CARD_TYPES.WISDOM) {
                         setAiMH(prev => Math.min(100, prev + playedCard.value));
-                        addLog(`AI memulihkan mentalnya sebesar ${playedCard.value} MH.`);
+                        addLog(`AI: Pulih ${playedCard.value} MH.`);
                         setTurn('PLAYER');
                     } else {
-                        addLog(`AI menyiapkan pertahanan (${playedCard.name}).`);
+                        addLog(`AI: Bertahan (${playedCard.name}).`);
                         setTurn('PLAYER');
                     }
-                }, 1500);
+                }, 1200);
             };
 
-            // Player Actions
             const playCard = (card, index) => {
                 if (turn !== 'PLAYER' && turn !== 'COUNTER') return;
-
                 const newHand = playerHand.filter((_, i) => i !== index);
 
                 if (turn === 'COUNTER') {
-                    // Coba tangkis serangan
                     if (card.type === CARD_TYPES.DEFENSE && card.counters.includes(pendingAttack.category)) {
-                        addLog(`🛡️ BERHASIL! Anda menangkis ${pendingAttack.name} menggunakan ${card.name}.`);
+                        addLog(`🛡️ BERHASIL: Menangkis pakai ${card.name}!`);
                         setPlayerHand(newHand);
                         setPendingAttack(null);
                         setTurn('PLAYER');
                     } else {
-                        addLog(`❌ GAGAL! ${card.name} tidak bisa menangkis serangan ${pendingAttack.category}.`);
-                        // Hanya pesan error, jangan buang kartu jika salah pilih
+                        addLog(`❌ GAGAL: ${card.name} tak mempan!`);
                     }
                     return;
                 }
 
-                // Normal Player Turn
                 setPlayerHand(newHand);
-                addLog(`Anda memainkan: ${card.name}`);
+                addLog(`Anda: ${card.name}`);
 
                 if (card.type === CARD_TYPES.ATTACK) {
-                    // For prototype, AI doesn't counter. Direct damage.
                     const newAiMH = aiMH - card.value;
                     setAiMH(newAiMH);
-                    addLog(`💥 AI terkena serangan ${card.category}! (-${card.value} MH)`);
-                    if (newAiMH <= 0) {
-                        setGameOver('PLAYER_WIN');
-                        return;
-                    }
+                    addLog(`💥 HIT! AI -${card.value} MH`);
+                    if (newAiMH <= 0) { setGameOver('PLAYER_WIN'); return; }
                 } else if (card.type === CARD_TYPES.WISDOM) {
                     setPlayerMH(prev => Math.min(100, prev + card.value));
-                    addLog(`💖 Anda merasa lebih baik. (+${card.value} MH)`);
+                    addLog(`💖 Pulih +${card.value} MH`);
                 } else if (card.type === CARD_TYPES.DEFENSE) {
-                    addLog(`🛡️ Anda menyiapkan ${card.name}. (Sebagai prototipe, kartu dibuang)`);
+                    addLog(`🛡️ Menyiapkan ${card.name}`);
                 }
 
                 setTurn('AI');
@@ -244,222 +230,175 @@
                 if (pendingAttack) {
                     const newPlayerMH = playerMH - pendingAttack.value;
                     setPlayerMH(newPlayerMH);
-                    addLog(`💔 Anda terkena efek ${pendingAttack.name}! (-${pendingAttack.value} MH)`);
+                    addLog(`💔 Kena efek ${pendingAttack.name}! -${pendingAttack.value} MH`);
                     setPendingAttack(null);
-                    
-                    if (newPlayerMH <= 0) {
-                        setGameOver('AI_WIN');
-                    } else {
-                        setTurn('PLAYER');
-                    }
+                    if (newPlayerMH <= 0) setGameOver('AI_WIN');
+                    else setTurn('PLAYER');
                 }
             };
 
             const endTurn = () => {
                 if(turn === 'PLAYER') {
-                    addLog("Anda mengakhiri giliran.");
+                    addLog("Giliran berakhir.");
                     setTurn('AI');
                     processAITurn();
                 }
             };
 
-            // Check Game Over
             if (gameOver) {
                 return (
-                    <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900 text-white p-4">
-                        <h1 className="text-3xl sm:text-5xl font-bold mb-4 text-center">
-                            {gameOver === 'PLAYER_WIN' ? '🎉 ANDA MENANG! 🎉' : '💀 KESEHATAN MENTAL HABIS 💀'}
+                    <div className="flex flex-col items-center justify-center h-[100dvh] bg-slate-900 text-white p-4">
+                        <h1 className="text-3xl md:text-5xl font-black mb-4 text-center text-emerald-400">
+                            {gameOver === 'PLAYER_WIN' ? '🎉 ANDA MENANG! 🎉' : '💀 MENTAL HABIS 💀'}
                         </h1>
-                        <p className="text-sm sm:text-xl mb-8 text-center max-w-lg">
-                            {gameOver === 'PLAYER_WIN' ? 'Anda berhasil bertahan dari toxic cyberbullying!' : 'Jangan menyerah. Di dunia nyata, segera cari dukungan (Kartu Support) atau Berani Bicara kepada guru/orang tua.'}
+                        <p className="text-sm md:text-xl mb-8 text-center max-w-md text-slate-300">
+                            {gameOver === 'PLAYER_WIN' ? 'Anda berhasil bertahan dari toxic cyberbullying di dimensi virtual ini!' : 'Jangan menyerah. Di dunia nyata, segera cari dukungan (Kartu Support) atau Berani Bicara.'}
                         </p>
-                        <button onClick={() => window.location.reload()} className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-lg font-bold text-lg">
-                            Main Lagi
+                        <button onClick={() => window.location.reload()} className="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold shadow-lg">
+                            Mulai Simulasi Baru
                         </button>
                     </div>
                 );
             }
 
+            // h-[100dvh] dan overflow-hidden MENGUNCI aplikasi agar seukuran layar utuh
             return (
-                <div className="flex flex-col min-h-screen max-w-5xl mx-auto px-2 md:px-4 py-2">
-                    {/* Header */}
-                    <div className="flex justify-between items-center bg-slate-800 p-2 md:p-3 rounded-xl border border-slate-700 shadow-md mt-1 md:mt-2">
-                        <div className="flex flex-col">
-                            <h1 className="text-lg md:text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400 tracking-wider">
+                <div className="flex flex-col h-[100dvh] w-full max-w-md md:max-w-4xl mx-auto px-2 py-2 overflow-hidden bg-slate-900 select-none">
+                    
+                    {/* Header - Fixed Shrink-0 */}
+                    <div className="flex justify-between items-center bg-slate-800 p-2 rounded-xl border border-slate-700 shadow-md shrink-0">
+                        <div className="flex flex-col leading-tight">
+                            <h1 className="text-lg md:text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400 tracking-wider">
                                 CYBERIA
                             </h1>
-                            <span className="text-[9px] md:text-xs text-slate-400 italic hidden sm:block">
-                                Cerdas, Yakin, Berani: Eksplorasi Ruang Internet Aman
-                            </span>
+                            <span className="text-[7px] md:text-[10px] text-slate-400 italic">Eksplorasi Internet Aman</span>
                         </div>
-                        <div className="flex gap-2 md:gap-4 items-center">
-                            <span className="text-xs md:text-sm font-medium text-slate-400 hidden md:inline">Sisa Deck: {deck.length}</span>
-                            <div className={`px-2 py-1 md:px-4 md:py-1 rounded-full font-bold text-[10px] md:text-sm ${turn === 'PLAYER' ? 'bg-emerald-500 text-white' : turn === 'COUNTER' ? 'bg-red-500 animate-pulse text-white' : 'bg-slate-600 text-slate-300'}`}>
-                                {turn === 'PLAYER' ? 'Giliran Anda' : turn === 'COUNTER' ? 'TANGKIS SERANGAN!' : 'Giliran AI'}
+                        <div className="flex gap-2 items-center">
+                            <div className={`px-2 py-1 rounded font-bold text-[9px] md:text-xs ${turn === 'PLAYER' ? 'bg-emerald-500 text-white' : turn === 'COUNTER' ? 'bg-red-500 animate-soft-pulse text-white' : 'bg-slate-600 text-slate-300'}`}>
+                                {turn === 'PLAYER' ? 'Giliran Anda' : turn === 'COUNTER' ? 'TANGKIS!' : 'Giliran AI'}
                             </div>
-                            <button onClick={() => setShowHelp(true)} className="flex items-center justify-center w-7 h-7 md:w-10 md:h-10 text-sm md:text-base bg-blue-500 hover:bg-blue-400 rounded-full text-white font-black shadow-lg hover:scale-110 transition-transform cursor-pointer" title="Cara Bermain">
+                            <button onClick={() => setShowHelp(true)} className="flex items-center justify-center w-7 h-7 bg-blue-500 rounded-full text-white font-black shadow-lg">
                                 ?
                             </button>
                         </div>
                     </div>
 
-                    {/* Arena */}
-                    <div className="flex-1 flex flex-col my-2 md:my-4 gap-2 md:gap-4">
-                        {/* AI Area */}
-                        <div className="flex justify-between items-start">
-                            <div className="bg-slate-800 p-2 md:p-3 rounded-xl border border-slate-700 w-24 sm:w-36 md:w-48 shadow-lg">
-                                <h2 className="text-slate-400 text-[9px] md:text-sm font-bold mb-1 truncate">AI OPPONENT</h2>
-                                <div className="w-full bg-slate-900 rounded-full h-2 md:h-4 mb-1 border border-slate-600">
-                                    <div className="bg-gradient-to-r from-rose-500 to-red-600 h-full rounded-full transition-all duration-500" style={{ width: `${Math.max(0, aiMH)}%` }}></div>
+                    {/* Arena - Dynamic Flex */}
+                    <div className="flex-1 flex flex-col my-2 gap-2 min-h-0">
+                        
+                        {/* AI Stats - Shrink-0 */}
+                        <div className="flex justify-between items-center shrink-0">
+                            <div className="bg-slate-800 p-2 rounded-xl border border-slate-700 w-24 sm:w-32 shadow">
+                                <h2 className="text-slate-400 text-[8px] md:text-xs font-bold mb-1 truncate">AI OPPONENT</h2>
+                                <div className="w-full bg-slate-900 rounded-full h-1.5 md:h-2 mb-1">
+                                    <div className="bg-red-500 h-full rounded-full transition-all" style={{ width: `${Math.max(0, aiMH)}%` }}></div>
                                 </div>
-                                <div className="text-right text-[10px] md:text-sm font-bold">{Math.max(0, aiMH)} MH</div>
+                                <div className="text-right text-[9px] md:text-xs font-bold">{Math.max(0, aiMH)} MH</div>
                             </div>
-                            <div className="flex -space-x-8 sm:-space-x-12 md:-space-x-16 overflow-hidden pl-4 pr-2">
+                            <div className="flex -space-x-8 sm:-space-x-12 overflow-hidden px-2">
                                 {aiHand.map((_, i) => <Card key={i} hidden={true} />)}
                             </div>
                         </div>
 
-                        {/* Battle Center & Logs */}
-                        <div className="flex-1 bg-slate-800 rounded-xl border border-slate-700 p-2 md:p-4 shadow-inner relative flex flex-col min-h-[160px]">
+                        {/* Battle Log Center - Flex-1 dengan overflow scroll internal */}
+                        <div className="flex-1 bg-slate-800 rounded-xl border border-slate-700 p-2 relative flex flex-col min-h-0 overflow-hidden shadow-inner">
+                            
+                            {/* POPUP ALERT - LAYOUT MENYAMPING KHUSUS AGAR MUAT DI LAYAR KECIL */}
                             {pendingAttack && (
-                                <div className="absolute inset-0 bg-red-900 bg-opacity-90 backdrop-blur-sm z-40 rounded-xl flex flex-col items-center justify-center p-3 text-center overflow-y-auto">
-                                    <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white mb-1 md:mb-2 drop-shadow-md">⚠️ SERANGAN SIBER! ⚠️</h2>
-                                    <p className="text-[11px] sm:text-sm md:text-lg text-red-200 mb-3 font-medium">AI menggunakan <span className="font-bold text-white">{pendingAttack.name}</span>.<br className="md:hidden" /> Pilih kartu pertahanan (Hijau) dari tangan!</p>
-                                    <div className="transform scale-90 sm:scale-100 md:scale-110 shadow-2xl shadow-red-500/50 rounded-xl mb-4">
+                                <div className="absolute inset-0 bg-slate-900/95 z-40 rounded-xl flex flex-row items-center justify-center p-2 gap-2 border-2 border-red-500 animate-soft-pulse">
+                                    {/* Kartu Serangan (Diperkecil dan disamping) */}
+                                    <div className="shrink-0 transform scale-90 sm:scale-100">
                                         <Card card={pendingAttack} disabled={true} />
                                     </div>
-                                    <button onClick={skipCounter} className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-[11px] sm:text-base rounded-lg font-bold border border-slate-500 transition">
-                                        Terima Kerusakan (Skip)
-                                    </button>
+                                    {/* Teks Instruksi */}
+                                    <div className="flex flex-col items-start justify-center text-left">
+                                        <h2 className="text-sm sm:text-lg font-black text-red-400 leading-none">⚠️ SERANGAN SIBER</h2>
+                                        <p className="text-[9px] sm:text-xs text-slate-300 my-1 font-medium leading-tight">
+                                            AI pakai <span className="text-white font-bold">{pendingAttack.name}</span>.<br/>Pilih kartu perlindungan Hijau dari tanganmu!
+                                        </p>
+                                        <button onClick={skipCounter} className="px-3 py-1.5 bg-slate-700 active:bg-slate-600 text-white text-[9px] sm:text-xs rounded font-bold border border-slate-500 mt-1">
+                                            Terima Kerusakan (Skip)
+                                        </button>
+                                    </div>
                                 </div>
                             )}
 
-                            <h3 className="text-slate-400 text-[10px] md:text-xs font-bold mb-1 md:mb-2 uppercase tracking-wider">Battle Log</h3>
-                            <div className="flex-1 overflow-y-auto space-y-1 flex flex-col-reverse pr-1">
+                            <h3 className="text-slate-500 text-[8px] md:text-[10px] font-bold uppercase tracking-widest shrink-0 border-b border-slate-700 pb-1 mb-1">Battle Log</h3>
+                            
+                            <div className="flex-1 overflow-y-auto space-y-1 flex flex-col-reverse px-1">
                                 {logs.map((log, i) => (
-                                    <div key={i} className={`text-[10px] md:text-sm p-1.5 md:p-2 rounded border-l-2 md:border-l-4 ${i === 0 ? 'bg-slate-700 border-emerald-500 text-white opacity-100' : 'bg-slate-900/50 border-slate-600 text-slate-400 opacity-60'}`}>
+                                    <div key={i} className={`text-[9px] md:text-xs p-1.5 rounded shrink-0 border-l-2 ${i === 0 ? 'bg-slate-700 border-emerald-500 text-white font-medium shadow' : 'bg-transparent border-slate-600 text-slate-400'}`}>
                                         {log}
                                     </div>
                                 ))}
                             </div>
                         </div>
 
-                        {/* Player Stats */}
-                        <div className="flex justify-between items-end">
-                            <div className="bg-slate-800 p-2 md:p-3 rounded-xl border border-slate-700 w-24 sm:w-36 md:w-48 shadow-lg">
-                                <h2 className="text-slate-400 text-[9px] md:text-sm font-bold mb-1 truncate">ANDA (SURVIVOR)</h2>
-                                <div className="w-full bg-slate-900 rounded-full h-2 md:h-4 mb-1 border border-slate-600">
-                                    <div className="bg-gradient-to-r from-emerald-400 to-teal-500 h-full rounded-full transition-all duration-500" style={{ width: `${Math.max(0, playerMH)}%` }}></div>
+                        {/* Player Stats - Shrink-0 */}
+                        <div className="flex justify-between items-center shrink-0">
+                            <div className="bg-slate-800 p-2 rounded-xl border border-slate-700 w-24 sm:w-32 shadow">
+                                <h2 className="text-emerald-400 text-[8px] md:text-xs font-bold mb-1 truncate">SURVIVOR</h2>
+                                <div className="w-full bg-slate-900 rounded-full h-1.5 md:h-2 mb-1">
+                                    <div className="bg-emerald-400 h-full rounded-full transition-all" style={{ width: `${Math.max(0, playerMH)}%` }}></div>
                                 </div>
-                                <div className="text-right text-[10px] md:text-sm font-bold">{Math.max(0, playerMH)} MH</div>
+                                <div className="text-right text-[9px] md:text-xs font-bold">{Math.max(0, playerMH)} MH</div>
                             </div>
-                            <div className="flex gap-1 md:gap-2">
-                                <button onClick={() => drawCard(true)} disabled={turn !== 'PLAYER' || playerHand.length >= 6} className="bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed px-3 py-1 md:px-4 md:py-2 rounded-lg font-bold text-[10px] md:text-sm transition">
+                            <div className="flex gap-1">
+                                <button onClick={() => drawCard(true)} disabled={turn !== 'PLAYER' || playerHand.length >= 6} className="bg-blue-600 active:bg-blue-500 disabled:opacity-50 px-3 py-1.5 rounded font-bold text-[9px] sm:text-xs">
                                     Draw
                                 </button>
-                                <button onClick={endTurn} disabled={turn !== 'PLAYER'} className="bg-slate-600 hover:bg-slate-500 disabled:opacity-50 disabled:cursor-not-allowed px-3 py-1 md:px-4 md:py-2 rounded-lg font-bold text-[10px] md:text-sm transition">
+                                <button onClick={endTurn} disabled={turn !== 'PLAYER'} className="bg-slate-600 active:bg-slate-500 disabled:opacity-50 px-3 py-1.5 rounded font-bold text-[9px] sm:text-xs">
                                     End
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    {/* Player Hand */}
-                    <div className="h-44 sm:h-52 md:h-64 bg-slate-800 rounded-t-xl border-t border-x border-slate-700 p-2 sm:p-4 pt-6 relative shadow-2xl flex flex-col">
-                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-slate-900 px-3 py-1 rounded-full border border-slate-600 text-[9px] md:text-xs font-bold text-slate-300 shadow-md z-10 whitespace-nowrap">
-                            Kartu di Tangan ({playerHand.length}/6)
+                    {/* Player Hand - Shrink-0 - Tinggi diperkecil */}
+                    <div className="shrink-0 h-36 sm:h-48 md:h-60 bg-slate-800 rounded-t-xl border-t border-slate-700 p-2 relative flex flex-col shadow-2xl">
+                        <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-slate-900 px-3 py-0.5 rounded-full border border-slate-600 text-[8px] md:text-[10px] font-bold text-slate-300 shadow z-10">
+                            Tangan ({playerHand.length}/6)
                         </div>
-                        <div className="flex-1 flex overflow-x-auto hide-scrollbar snap-x px-2 pt-2 pb-6 w-full items-center">
+                        <div className="flex-1 flex overflow-x-auto hide-scrollbar snap-x px-1 pt-3 pb-2 w-full items-center">
                             <div className="flex flex-nowrap mx-auto">
                                 {playerHand.map((card, i) => (
                                     <div 
                                         key={card.uniqueId || i} 
-                                        className={`flex-shrink-0 snap-center relative group ${i !== 0 ? '-ml-8 sm:-ml-4 md:-ml-2' : ''} hover:z-50`}
+                                        className={`flex-shrink-0 snap-center relative group ${i !== 0 ? '-ml-6 sm:-ml-4' : ''} hover:z-50`}
                                     >
                                         <Card 
                                             card={card} 
                                             onClick={() => playCard(card, i)}
-                                            disabled={
-                                                (turn === 'AI') || 
-                                                (turn === 'COUNTER' && card.type !== CARD_TYPES.DEFENSE)
-                                            }
+                                            disabled={(turn === 'AI') || (turn === 'COUNTER' && card.type !== CARD_TYPES.DEFENSE)}
                                         />
                                     </div>
                                 ))}
                             </div>
                             {playerHand.length === 0 && (
-                                <div className="text-slate-500 text-[10px] sm:text-sm italic flex items-center justify-center w-full h-full">Tidak ada kartu. Klik Draw.</div>
+                                <div className="text-slate-500 text-[9px] sm:text-xs italic w-full text-center">Tangan Kosong. Draw Kartu.</div>
                             )}
                         </div>
                     </div>
 
                     {/* Modal Tutorial / Bantuan */}
                     {showHelp && (
-                        <div className="fixed inset-0 bg-slate-900/90 z-[100] flex items-center justify-center p-4 backdrop-blur-sm overflow-y-auto">
-                            <div className="bg-slate-800 rounded-2xl w-full max-w-4xl my-auto border border-slate-600 shadow-2xl flex flex-col relative transition-all">
-                                <button onClick={() => setShowHelp(false)} className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-slate-700 hover:bg-red-500 rounded-full text-white font-bold transition z-10 shadow">
-                                    ✕
-                                </button>
-                                
-                                <div className="p-6 md:p-8">
-                                    <h2 className="text-2xl md:text-3xl font-black text-emerald-400 mb-2 border-b border-slate-600 pb-4">
-                                        Panduan Bermain: CYBERIA
-                                    </h2>
-                                    
-                                    <div className="space-y-6 mt-6">
-                                        {/* Tujuan */}
-                                        <section>
-                                            <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2"><span className="text-2xl">🎯</span> Tujuan Permainan</h3>
-                                            <p className="text-slate-300">Selamat datang di dimensi virtual <strong>CYBERIA</strong>! Bertahanlah dari serangan siber AI dan jaga poin <strong>Kesehatan Mental (MH)</strong> Anda agar tidak mencapai 0. Gunakan kartu pertahanan untuk menangkis (Counter), dan kartu pemulihan untuk bertahan hidup.</p>
-                                        </section>
-
-                                        {/* Contoh Tangkisan dengan Kartu Asli */}
-                                        <section className="bg-slate-900 rounded-xl p-5 border border-slate-700 shadow-inner">
-                                            <h3 className="text-lg font-bold text-amber-400 mb-6 text-center">💡 Visual: Cara Menangkis Serangan (Sistem Counter)</h3>
-                                            
-                                            <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                                                <div className="flex flex-col items-center">
-                                                    <span className="text-red-400 font-bold mb-3 text-sm">1. Serangan Masuk (AI)</span>
-                                                    <div className="scale-90 transform-origin-top hover:scale-100 transition"><Card card={CARD_DB.find(c => c.id === 'a1')} disabled={true} /></div>
-                                                </div>
-                                                
-                                                <div className="hidden md:flex flex-col items-center">
-                                                    <span className="text-4xl mb-4">🛡️</span>
-                                                    <span className="bg-slate-800 px-3 py-1 rounded text-xs text-slate-300 whitespace-nowrap border border-slate-600">Cocokkan Kategori!</span>
-                                                </div>
-                                                <div className="md:hidden text-2xl my-[-10px]">⬇️</div>
-
-                                                <div className="flex flex-col items-center">
-                                                    <span className="text-emerald-400 font-bold mb-3 text-sm">2. Balas dari Tangan Anda</span>
-                                                    <div className="scale-90 transform-origin-top hover:scale-100 transition"><Card card={CARD_DB.find(c => c.id === 'd1')} disabled={true} /></div>
-                                                </div>
+                        <div className="fixed inset-0 bg-slate-900/95 z-[100] flex flex-col p-4 overflow-y-auto">
+                            <div className="bg-slate-800 rounded-xl w-full max-w-md mx-auto my-auto border border-slate-600 shadow-2xl relative">
+                                <button onClick={() => setShowHelp(false)} className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-slate-700 rounded-full text-white font-bold">✕</button>
+                                <div className="p-4 sm:p-6">
+                                    <h2 className="text-xl font-black text-emerald-400 border-b border-slate-600 pb-2 mb-4">Panduan CYBERIA</h2>
+                                    <div className="space-y-4 text-xs sm:text-sm text-slate-300">
+                                        <p>Jaga <strong>Kesehatan Mental (MH)</strong> Anda jangan sampai 0! Gunakan kartu Hijau untuk menangkis, dan Kuning untuk memulihkan.</p>
+                                        <div className="bg-slate-900 p-3 rounded-lg border border-slate-700 text-center">
+                                            <h3 className="font-bold text-amber-400 mb-2">Cara Menangkis Serangan</h3>
+                                            <div className="flex items-center justify-center gap-2 mb-2">
+                                                <Card card={CARD_DB.find(c => c.id === 'a1')} disabled={true} />
+                                                <span className="text-lg">➡️</span>
+                                                <Card card={CARD_DB.find(c => c.id === 'd1')} disabled={true} />
                                             </div>
-
-                                            <div className="mt-6 p-4 bg-slate-800 rounded-lg border border-slate-600 text-center">
-                                                <p className="text-sm md:text-base text-slate-300">
-                                                    Ketika layar menyala merah karena <span className="text-red-400 font-bold">Serangan (Merah)</span>, baca kategorinya (contoh di atas: <strong>Agresi Verbal</strong>). <br/>Untuk selamat, Anda HARUS mengeluarkan <span className="text-emerald-400 font-bold">Kartu Pertahanan (Hijau)</span> dari tangan Anda yang memiliki label "Menangkal: <strong>Agresi Verbal</strong>".
-                                                </p>
-                                            </div>
-                                        </section>
-
-                                        {/* Contoh Healing */}
-                                        <section className="bg-slate-900 rounded-xl p-5 border border-slate-700 shadow-inner">
-                                            <h3 className="text-lg font-bold text-amber-400 mb-4 text-center md:text-left">💖 Visual: Cara Memulihkan Mental</h3>
-                                            
-                                            <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-                                                <div className="scale-90"><Card card={CARD_DB.find(c => c.id === 'w1')} disabled={true} /></div>
-                                                <div className="text-sm md:text-base text-slate-300 md:mt-6 text-center md:text-left flex-1">
-                                                    Gunakan <span className="text-yellow-400 font-bold">Kartu Wisdom (Kuning)</span> pada giliran normal Anda untuk memulihkan poin Mental Health (MH). <br/><br/>
-                                                    Kartu ini tidak bisa digunakan untuk menangkis, melainkan untuk mengobati diri setelah situasi genting atau saat Anda merasa poin Anda mulai menipis.
-                                                </div>
-                                            </div>
-                                        </section>
-                                        
-                                        <div className="text-center pt-4">
-                                            <button onClick={() => setShowHelp(false)} className="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition shadow-lg w-full md:w-auto">
-                                                Mengerti, Mulai Bertahan Hidup!
-                                            </button>
+                                            <p className="text-[10px]">Cocokkan label kategori yang diserang dengan label "Menangkal" pada kartu hijau milikmu.</p>
                                         </div>
+                                        <button onClick={() => setShowHelp(false)} className="w-full py-2 bg-emerald-600 rounded-lg text-white font-bold">Mengerti!</button>
                                     </div>
                                 </div>
                             </div>
