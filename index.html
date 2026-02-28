@@ -52,39 +52,76 @@
         const CATEGORIES = {
             AGRESI: 'Agresi Verbal',
             IDENTITAS: 'Identitas',
-            PRIVASI: 'Privasi',
             MANIPULASI: 'Manipulasi',
             PENGUCILAN: 'Pengucilan',
             PROVOKASI: 'Provokasi'
         };
 
         const CARD_DB = [
-            // ATTACKS (MERAH)
-            { id: 'a1', name: 'Flaming', type: CARD_TYPES.ATTACK, category: CATEGORIES.AGRESI, value: 30, desc: 'Pesan penuh amarah. Dampak: Tinggi (-30 MH)', color: 'bg-red-600' },
-            { id: 'a2', name: 'Threatening', type: CARD_TYPES.ATTACK, category: CATEGORIES.AGRESI, value: 50, desc: 'Ancaman fisik/nyawa. Dampak: Ekstrem (-50 MH)', color: 'bg-red-700' },
-            { id: 'a3', name: 'Account Hijack', type: CARD_TYPES.ATTACK, category: CATEGORIES.IDENTITAS, value: 50, desc: 'Mencuri akun. Dampak: Ekstrem (-50 MH)', color: 'bg-rose-700' },
-            { id: 'a4', name: 'Impersonation', type: CARD_TYPES.ATTACK, category: CATEGORIES.IDENTITAS, value: 30, desc: 'Membuat akun palsu. Dampak: Tinggi (-30 MH)', color: 'bg-rose-600' },
-            { id: 'a5', name: 'Doxing', type: CARD_TYPES.ATTACK, category: CATEGORIES.PRIVASI, value: 50, desc: 'Sebar data pribadi. Dampak: Ekstrem (-50 MH)', color: 'bg-orange-700' },
-            { id: 'a6', name: 'Meme-ing', type: CARD_TYPES.ATTACK, category: CATEGORIES.MANIPULASI, value: 20, desc: 'Edit foto jadi lelucon. Dampak: Medium (-20 MH)', color: 'bg-orange-500' },
-            { id: 'a7', name: 'Group Kick-out', type: CARD_TYPES.ATTACK, category: CATEGORIES.PENGUCILAN, value: 20, desc: 'Dikeluarkan dari grup. Dampak: Medium (-20 MH)', color: 'bg-pink-600' },
-            { id: 'a8', name: 'Hoax Spreading', type: CARD_TYPES.ATTACK, category: CATEGORIES.PROVOKASI, value: 30, desc: 'Sebar fitnah. Dampak: Tinggi (-30 MH)', color: 'bg-purple-600' },
+            // AGRESI VERBAL
+            { id: 'a1', name: 'Flaming', type: CARD_TYPES.ATTACK, category: CATEGORIES.AGRESI, value: 30, desc: 'Mengirim pesan penuh amarah dan makian di kolom komentar atau chat untuk memancing keributan.', color: 'bg-red-600' },
+            { id: 'a2', name: 'Insulting', type: CARD_TYPES.ATTACK, category: CATEGORIES.AGRESI, value: 30, desc: 'Mengolok-olok kekurangan fisik, penampilan, atau kemampuan seseorang (Body Shaming).', color: 'bg-red-600' },
+            { id: 'a3', name: 'Spamming Hate', type: CARD_TYPES.ATTACK, category: CATEGORIES.AGRESI, value: 20, desc: 'Membanjiri notifikasi seseorang dengan pesan kebencian berulang-ulang hingga mengganggu.', color: 'bg-red-500' },
+            { id: 'a4', name: 'Threatening', type: CARD_TYPES.ATTACK, category: CATEGORIES.AGRESI, value: 50, desc: 'Mengancam akan menyakiti fisik, mendatangi rumah korban, atau membahayakan nyawa.', color: 'bg-red-700' },
+            { id: 'a5', name: 'Slurring', type: CARD_TYPES.ATTACK, category: CATEGORIES.AGRESI, value: 40, desc: 'Menggunakan kata-kata kasar yang menghina suku, ras, agama, atau golongan tertentu (SARA).', color: 'bg-red-600' },
+            { id: 'a6', name: 'Mocking', type: CARD_TYPES.ATTACK, category: CATEGORIES.AGRESI, value: 20, desc: 'Menertawakan kegagalan, kesedihan, atau musibah yang dialami orang lain sebagai bahan lelucon.', color: 'bg-red-500' },
 
-            // DEFENSES (HIJAU) - Action Tools
-            { id: 'd1', name: 'Kartu Blokir', type: CARD_TYPES.DEFENSE, counters: [CATEGORIES.AGRESI, CATEGORIES.PENGUCILAN], desc: 'Memblokir serangan Agresi Verbal & Pengucilan.', color: 'bg-emerald-600' },
-            { id: 'd2', name: 'Pass Protect', type: CARD_TYPES.DEFENSE, counters: [CATEGORIES.IDENTITAS], desc: 'Mengamankan akun. Menangkal pencurian Identitas.', color: 'bg-emerald-500' },
-            { id: 'd3', name: 'Kartu Lapor', type: CARD_TYPES.DEFENSE, counters: [CATEGORIES.PRIVASI, CATEGORIES.PROVOKASI], desc: 'Melaporkan ke pihak berwajib. Menangkal Privasi & Provokasi.', color: 'bg-teal-600' },
-            { id: 'd4', name: 'Kartu Privasi', type: CARD_TYPES.DEFENSE, counters: [CATEGORIES.MANIPULASI], desc: 'Mengatur privasi akun. Menangkal Manipulasi.', color: 'bg-teal-500' },
+            // IDENTITAS
+            { id: 'a7', name: 'Impersonation', type: CARD_TYPES.ATTACK, category: CATEGORIES.IDENTITAS, value: 40, desc: 'Membuat akun palsu memakai nama dan foto teman untuk menipu orang lain atau merusak reputasi.', color: 'bg-rose-600' },
+            { id: 'a8', name: 'Account Hijack', type: CARD_TYPES.ATTACK, category: CATEGORIES.IDENTITAS, value: 50, desc: 'Mencuri kata sandi dan mengambil alih akun orang lain untuk disalahgunakan.', color: 'bg-rose-700' },
+            { id: 'a9', name: 'Doxing', type: CARD_TYPES.ATTACK, category: CATEGORIES.IDENTITAS, value: 50, desc: 'Menyebarkan data pribadi seperti nomor HP, alamat rumah, atau sekolah teman tanpa izin.', color: 'bg-rose-700' },
+            { id: 'a10', name: 'Catfishing', type: CARD_TYPES.ATTACK, category: CATEGORIES.IDENTITAS, value: 30, desc: 'Menyamar menjadi orang lain (biasanya profil menarik) untuk menipu atau menjebak korban secara emosional.', color: 'bg-rose-600' },
+            { id: 'a11', name: 'Stalking', type: CARD_TYPES.ATTACK, category: CATEGORIES.IDENTITAS, value: 30, desc: 'Memantau gerak-gerik online seseorang secara obsesif, menakutkan, dan mengganggu privasi.', color: 'bg-rose-600' },
+            { id: 'a12', name: 'Privacy Breach', type: CARD_TYPES.ATTACK, category: CATEGORIES.IDENTITAS, value: 40, desc: 'Mengintip isi chat pribadi (DM) orang lain dan menyebarkannya ke publik (Screenshot Sebar).', color: 'bg-rose-600' },
 
-            // WISDOM (KUNING) - Healing
-            { id: 'w1', name: 'Digital Detox', type: CARD_TYPES.WISDOM, value: 40, desc: 'Istirahat dari sosmed. Memulihkan +40 MH.', color: 'bg-amber-500' },
-            { id: 'w2', name: 'Kartu Support', type: CARD_TYPES.WISDOM, value: 20, desc: 'Dukungan teman. Memulihkan +20 MH.', color: 'bg-yellow-500' },
-            { id: 'w3', name: 'Think First', type: CARD_TYPES.WISDOM, value: 15, desc: 'T.H.I.N.K sebelum posting. Memulihkan +15 MH.', color: 'bg-amber-400' }
+            // MANIPULASI
+            { id: 'a13', name: 'Shaming Photo', type: CARD_TYPES.ATTACK, category: CATEGORIES.MANIPULASI, value: 30, desc: 'Mengunggah foto memalukan teman tanpa persetujuan untuk mempermalukannya secara visual.', color: 'bg-pink-600' },
+            { id: 'a14', name: 'Meme-ing', type: CARD_TYPES.ATTACK, category: CATEGORIES.MANIPULASI, value: 20, desc: 'Mengedit foto teman menjadi lelucon atau meme yang merendahkan harga dirinya.', color: 'bg-pink-500' },
+            { id: 'a15', name: 'Deepfake', type: CARD_TYPES.ATTACK, category: CATEGORIES.MANIPULASI, value: 50, desc: 'Mengubah foto/video teman seolah melakukan hal buruk/asusila menggunakan AI atau editing canggih.', color: 'bg-pink-700' },
+            { id: 'a16', name: 'Live Shaming', type: CARD_TYPES.ATTACK, category: CATEGORIES.MANIPULASI, value: 40, desc: 'Melakukan live streaming khusus untuk membicarakan keburukan atau aib orang lain kepada follower.', color: 'bg-pink-600' },
+            { id: 'a17', name: 'Status Mockery', type: CARD_TYPES.ATTACK, category: CATEGORIES.MANIPULASI, value: 20, desc: 'Membuat status atau story yang menyindir secara spesifik (nyinyir) untuk memancing reaksi publik.', color: 'bg-pink-500' },
+            { id: 'a18', name: 'Video Mocking', type: CARD_TYPES.ATTACK, category: CATEGORIES.MANIPULASI, value: 40, desc: 'Merekam diam-diam teman yang sedang melakukan kesalahan atau kecelakaan lalu mengunggahnya.', color: 'bg-pink-600' },
+
+            // PENGUCILAN
+            { id: 'a19', name: 'Group Kick-out', type: CARD_TYPES.ATTACK, category: CATEGORIES.PENGUCILAN, value: 20, desc: 'Sengaja mengeluarkan satu orang dari grup chat kelas atau pertemanan tanpa alasan yang jelas.', color: 'bg-purple-500' },
+            { id: 'a20', name: 'Silent Treat', type: CARD_TYPES.ATTACK, category: CATEGORIES.PENGUCILAN, value: 30, desc: 'Mengajak orang lain untuk kompak mengabaikan pesan, sapaan, atau keberadaan satu orang.', color: 'bg-purple-600' },
+            { id: 'a21', name: 'Blacklisting', type: CARD_TYPES.ATTACK, category: CATEGORIES.PENGUCILAN, value: 20, desc: 'Menghasut orang lain agar tidak mem-follow, berteman, atau berinteraksi dengan seseorang.', color: 'bg-purple-500' },
+            { id: 'a22', name: 'Exclusion', type: CARD_TYPES.ATTACK, category: CATEGORIES.PENGUCILAN, value: 10, desc: 'Sengaja tidak mengajak teman tertentu saat bermain game online (mabar) atau aktivitas grup lainnya.', color: 'bg-purple-400' },
+            { id: 'a23', name: 'Hate Campaign', type: CARD_TYPES.ATTACK, category: CATEGORIES.PENGUCILAN, value: 50, desc: 'Mengajak orang banyak melakukan \'Cancel Culture\' atau membenci seseorang tanpa dasar yang kuat.', color: 'bg-purple-700' },
+            { id: 'a24', name: 'Voting Bully', type: CARD_TYPES.ATTACK, category: CATEGORIES.PENGUCILAN, value: 30, desc: 'Membuat polling di media sosial untuk memilih \'siapa yang paling tidak disukai\' atau \'paling aneh\' di kelas.', color: 'bg-purple-600' },
+
+            // PROVOKASI
+            { id: 'a25', name: 'Hoax Spreading', type: CARD_TYPES.ATTACK, category: CATEGORIES.PROVOKASI, value: 40, desc: 'Menyebarkan berita bohong atau fitnah agar seseorang dibenci oleh lingkungan sosialnya.', color: 'bg-fuchsia-600' },
+            { id: 'a26', name: 'Cyber-baiting', type: CARD_TYPES.ATTACK, category: CATEGORIES.PROVOKASI, value: 30, desc: 'Memprovokasi guru atau teman agar marah saat kelas online, lalu merekam reaksinya untuk dipermalukan.', color: 'bg-fuchsia-600' },
+            { id: 'a27', name: 'Griefing', type: CARD_TYPES.ATTACK, category: CATEGORIES.PROVOKASI, value: 10, desc: 'Sengaja merusak hasil karya, bangunan, atau progres game teman hanya untuk kesenangan pribadi.', color: 'bg-fuchsia-400' },
+            { id: 'a28', name: 'Dogpiling', type: CARD_TYPES.ATTACK, category: CATEGORIES.PROVOKASI, value: 50, desc: 'Ikut-ikutan menghujat orang yang sedang viral (keroyokan) tanpa mengetahui duduk permasalahan sebenarnya.', color: 'bg-fuchsia-700' },
+            { id: 'a29', name: 'False Report', type: CARD_TYPES.ATTACK, category: CATEGORIES.PROVOKASI, value: 40, desc: 'Melaporkan akun teman secara massal (mass report) ke platform padahal dia tidak melakukan kesalahan.', color: 'bg-fuchsia-600' },
+            { id: 'a30', name: 'Peer Pressure', type: CARD_TYPES.ATTACK, category: CATEGORIES.PROVOKASI, value: 40, desc: 'Memaksa teman melakukan challenge berbahaya atau memalukan demi pengakuan dalam pertemanan.', color: 'bg-fuchsia-600' },
+
+            // DEFENSES (ACTION TOOLS)
+            { id: 'd1', name: 'Kartu Lapor', type: CARD_TYPES.DEFENSE, counters: [CATEGORIES.PROVOKASI, CATEGORIES.IDENTITAS], desc: 'Melaporkan konten atau akun jahat ke pihak aplikasi (Instagram/TikTok/Game) agar ditindaklanjuti.', color: 'bg-emerald-600' },
+            { id: 'd2', name: 'Kartu Blokir', type: CARD_TYPES.DEFENSE, counters: [CATEGORIES.AGRESI, CATEGORIES.PENGUCILAN], desc: 'Memutuskan akses komunikasi total. Pelaku tidak bisa lagi melihat profil, mengirim pesan, atau menandaimu.', color: 'bg-teal-600' },
+            { id: 'd3', name: 'Kartu Privasi', type: CARD_TYPES.DEFENSE, counters: [CATEGORIES.MANIPULASI, CATEGORIES.IDENTITAS], desc: 'Mengatur akun menjadi \'Private\', membatasi siapa yang bisa komentar, dan menyaring kata kasar otomatis.', color: 'bg-emerald-500' },
+            { id: 'd4', name: 'Screenshot', type: CARD_TYPES.DEFENSE, counters: [CATEGORIES.AGRESI, CATEGORIES.PROVOKASI], desc: 'Mengambil tangkapan layar bukti chat atau komentar jahat sebelum dihapus pelaku, untuk barang bukti laporan.', color: 'bg-cyan-600' },
+            { id: 'd5', name: 'Restrict', type: CARD_TYPES.DEFENSE, counters: [CATEGORIES.AGRESI, CATEGORIES.MANIPULASI], desc: 'Membatasi interaksi akun pengganggu tanpa mereka tahu (Shadowban). Komentar mereka hanya terlihat oleh mereka sendiri.', color: 'bg-teal-500' },
+            { id: 'd6', name: 'Turn Off Comm', type: CARD_TYPES.DEFENSE, counters: [CATEGORIES.AGRESI, CATEGORIES.PROVOKASI], desc: 'Mematikan kolom komentar pada postingan tertentu untuk menghentikan perdebatan atau ujaran kebencian.', color: 'bg-cyan-500' },
+            { id: 'd7', name: 'Pass Protect', type: CARD_TYPES.DEFENSE, counters: [CATEGORIES.IDENTITAS], desc: 'Mengganti kata sandi secara berkala dan mengaktifkan 2FA agar akun tidak mudah dibajak orang lain.', color: 'bg-emerald-700' },
+
+            // WISDOM (HEALING)
+            { id: 'w1', name: 'Kartu Support', type: CARD_TYPES.WISDOM, value: 20, desc: 'Memberi semangat dan dukungan kepada korban bullying agar mereka tidak merasa sendirian.', color: 'bg-yellow-500' },
+            { id: 'w2', name: 'Verifikasi', type: CARD_TYPES.WISDOM, value: 20, desc: 'Mengecek kebenaran sebuah berita atau informasi sebelum emosi terpancing dan ikut menyebarkannya.', color: 'bg-amber-400' },
+            { id: 'w3', name: 'Literasi', type: CARD_TYPES.WISDOM, value: 20, desc: 'Memahami aturan komunitas dan berhenti menyebarkan konten yang belum tentu benar atau bermanfaat.', color: 'bg-yellow-600' },
+            { id: 'w4', name: 'Think First', type: CARD_TYPES.WISDOM, value: 15, desc: 'T.H.I.N.K (True, Helpful, Inspiring, Necessary, Kind). Pikirkan 5 hal ini sebelum memposting sesuatu.', color: 'bg-amber-500' },
+            { id: 'w5', name: 'Digital Detox', type: CARD_TYPES.WISDOM, value: 40, desc: 'Beristirahat sejenak dari media sosial untuk menjaga kesehatan mental dan menikmati dunia nyata.', color: 'bg-yellow-400' },
+            { id: 'w6', name: 'Berani Bicara', type: CARD_TYPES.WISDOM, value: 30, desc: 'Melaporkan kejadian bullying yang dialami atau dilihat kepada orang dewasa tepercaya (Orang tua/Guru).', color: 'bg-amber-600' },
+            { id: 'w7', name: 'Kartu Pause', type: CARD_TYPES.WISDOM, value: 15, desc: 'Mengambil jeda 10 detik saat emosi memuncak sebelum menekan tombol kirim pada pesan atau komentar.', color: 'bg-yellow-500' },
+            { id: 'w8', name: 'Netizen Hijau', type: CARD_TYPES.WISDOM, value: 25, desc: 'Secara aktif memberikan komentar positif dan apresiasi pada karya teman untuk membangun lingkungan sehat.', color: 'bg-lime-500' }
         ];
 
         // --- UTILS ---
         const generateDeck = () => {
             let deck = [];
-            for(let i=0; i<3; i++) {
+            for(let i=0; i<2; i++) {
                 CARD_DB.forEach(card => {
                     deck.push({ ...card, uniqueId: Math.random().toString(36).substr(2, 9) });
                 });
@@ -93,14 +130,25 @@
         };
 
         // --- COMPONENTS ---
-        // Ukuran kartu dioptimalkan agar vertikalnya ringkas
+        // Ukuran kartu dioptimalkan dan menggunakan file gambar (.png) dengan Fallback UI
         const Card = ({ card, onClick, disabled, hidden }) => {
+            const [imgError, setImgError] = React.useState(false);
+
             if (hidden) {
                 return (
-                    <div className="w-16 h-24 sm:w-24 sm:h-36 md:w-32 md:h-48 rounded-xl bg-slate-800 border-2 border-slate-600 flex items-center justify-center shadow-lg card-transition flex-shrink-0">
-                        <div className="w-12 h-20 sm:w-16 sm:h-28 md:w-24 md:h-40 border border-slate-700 rounded-lg flex items-center justify-center opacity-50 bg-slate-900 overflow-hidden">
-                            <span className="text-slate-500 font-bold tracking-[0.2em] md:tracking-widest text-[8px] sm:text-xs md:text-lg transform -rotate-90 md:rotate-0">CYB</span>
-                        </div>
+                    <div className={`w-16 h-24 sm:w-24 sm:h-36 md:w-32 md:h-48 flex items-center justify-center card-transition flex-shrink-0 drop-shadow-lg ${imgError ? 'bg-slate-800 border-2 border-slate-600 rounded-xl' : ''}`}>
+                        <img 
+                            src="Cover.png" 
+                            alt="Cover" 
+                            className={`w-full h-full object-contain pointer-events-none ${imgError ? 'hidden' : 'block'}`} 
+                            draggable="false" 
+                            onError={() => setImgError(true)} 
+                        />
+                        {imgError && (
+                            <div className="w-12 h-20 sm:w-16 sm:h-28 md:w-24 md:h-40 border border-slate-700 rounded-lg flex items-center justify-center opacity-50 bg-slate-900 overflow-hidden">
+                                <span className="text-slate-500 font-bold tracking-[0.2em] md:tracking-widest text-[8px] sm:text-xs md:text-lg transform -rotate-90 md:rotate-0">CYB</span>
+                            </div>
+                        )}
                     </div>
                 );
             }
@@ -108,26 +156,38 @@
             return (
                 <div 
                     onClick={() => !disabled && onClick(card)}
-                    className={`w-20 h-28 sm:w-28 sm:h-40 md:w-36 md:h-52 rounded-xl border border-slate-900 shadow-xl flex flex-col overflow-hidden card-transition ${disabled ? 'opacity-50 cursor-not-allowed' : 'card-hover cursor-pointer'} ${card.color} flex-shrink-0`}
+                    className={`w-20 h-28 sm:w-28 sm:h-40 md:w-36 md:h-52 flex flex-col card-transition flex-shrink-0 drop-shadow-xl ${disabled ? 'opacity-50 cursor-not-allowed' : 'card-hover cursor-pointer'} ${imgError ? card.color + ' rounded-xl border border-slate-900 overflow-hidden' : ''}`}
                 >
-                    <div className="px-1 sm:px-2 py-0.5 sm:py-1 bg-black bg-opacity-40 text-[8px] sm:text-[10px] font-bold truncate">
-                        {card.name}
-                    </div>
-                    <div className="flex-1 p-1 flex flex-col items-center justify-center text-center bg-white bg-opacity-10 backdrop-blur-sm">
-                        {card.type === CARD_TYPES.ATTACK && <span className="text-xl sm:text-3xl">⚔️</span>}
-                        {card.type === CARD_TYPES.DEFENSE && <span className="text-xl sm:text-3xl">🛡️</span>}
-                        {card.type === CARD_TYPES.WISDOM && <span className="text-xl sm:text-3xl">💖</span>}
-                        <p className="text-[7px] sm:text-[9px] md:text-xs mt-1 font-medium drop-shadow-md leading-tight line-clamp-2">{card.desc}</p>
-                    </div>
-                    {card.type === CARD_TYPES.DEFENSE && (
-                         <div className="px-1 py-0.5 bg-black bg-opacity-60 text-[6px] sm:text-[8px] text-center leading-tight truncate">
-                            Bisa Menangkal: {card.counters[0]}
-                        </div>
+                    <img 
+                        src={`${card.name}.png`} 
+                        alt={card.name} 
+                        className={`w-full h-full object-contain pointer-events-none ${imgError ? 'hidden' : 'block'}`} 
+                        draggable="false"
+                        onError={() => setImgError(true)}
+                    />
+                    
+                    {imgError && (
+                        <React.Fragment>
+                            <div className="px-1 sm:px-2 py-0.5 sm:py-1 bg-black bg-opacity-40 text-[7px] sm:text-[9px] font-bold truncate">
+                                {card.name}
+                            </div>
+                            <div className="flex-1 p-1 flex flex-col items-center justify-center text-center bg-white bg-opacity-10 backdrop-blur-sm">
+                                {card.type === CARD_TYPES.ATTACK && <span className="text-xl sm:text-2xl mb-0.5">⚔️</span>}
+                                {card.type === CARD_TYPES.DEFENSE && <span className="text-xl sm:text-2xl mb-0.5">🛡️</span>}
+                                {card.type === CARD_TYPES.WISDOM && <span className="text-xl sm:text-2xl mb-0.5">💖</span>}
+                                <p className="text-[6px] sm:text-[8px] md:text-[9px] font-medium drop-shadow-md leading-tight line-clamp-3 md:line-clamp-4">{card.desc}</p>
+                            </div>
+                            {card.type === CARD_TYPES.DEFENSE && (
+                                 <div className="px-1 py-0.5 bg-black bg-opacity-60 text-[5px] sm:text-[7px] text-center leading-tight truncate">
+                                    Anti: {card.counters.join(', ')}
+                                </div>
+                            )}
+                            <div className="px-1 py-0.5 sm:py-1 bg-black bg-opacity-40 text-[7px] sm:text-[9px] flex justify-between font-bold">
+                                <span>{card.type.substring(0,3)}</span>
+                                {card.value && <span>{card.type === CARD_TYPES.ATTACK ? `-${card.value}` : `+${card.value}`}</span>}
+                            </div>
+                        </React.Fragment>
                     )}
-                    <div className="px-1 py-0.5 sm:py-1 bg-black bg-opacity-40 text-[8px] sm:text-[10px] flex justify-between font-bold">
-                        <span>{card.type.substring(0,3)}</span>
-                        {card.value && <span>{card.type === CARD_TYPES.ATTACK ? `-${card.value}` : `+${card.value}`}</span>}
-                    </div>
                 </div>
             );
         };
@@ -144,6 +204,7 @@
             const [pendingAttack, setPendingAttack] = React.useState(null);
             const [gameOver, setGameOver] = React.useState(false);
             const [showHelp, setShowHelp] = React.useState(false);
+            const [defenseError, setDefenseError] = React.useState(null);
 
             React.useEffect(() => {
                 const initialDeck = generateDeck();
@@ -169,23 +230,51 @@
                     drawCard(false);
                     if(aiHand.length === 0) { setTurn('PLAYER'); return; }
 
-                    const randomIndex = Math.floor(Math.random() * aiHand.length);
-                    const playedCard = aiHand[randomIndex];
-                    const newAiHand = aiHand.filter((_, i) => i !== randomIndex);
-                    setAiHand(newAiHand);
+                    // --- SMART AI LOGIC ---
+                    let playedIndex = -1;
+                    
+                    // 1. Jika kesehatan mental AI kurang dari 70, prioritaskan Healing (WISDOM)
+                    if (aiMH < 70) {
+                        const wisdomIndexes = aiHand.map((c, i) => c.type === CARD_TYPES.WISDOM ? i : -1).filter(i => i !== -1);
+                        if (wisdomIndexes.length > 0) {
+                            // Pilih kartu healing dengan efek terbesar
+                            playedIndex = wisdomIndexes.reduce((maxIdx, currentIdx) => 
+                                aiHand[currentIdx].value > aiHand[maxIdx].value ? currentIdx : maxIdx
+                            , wisdomIndexes[0]);
+                        }
+                    }
 
-                    addLog(`AI: ${playedCard.name}`);
+                    // 2. Jika tidak butuh healing atau tidak ada kartu healing, cari kartu ATTACK (Serangan)
+                    if (playedIndex === -1) {
+                        const attackIndexes = aiHand.map((c, i) => c.type === CARD_TYPES.ATTACK ? i : -1).filter(i => i !== -1);
+                        if (attackIndexes.length > 0) {
+                            // Pilih serangan dengan damage tertinggi agar mematikan
+                            playedIndex = attackIndexes.reduce((maxIdx, currentIdx) => 
+                                aiHand[currentIdx].value > aiHand[maxIdx].value ? currentIdx : maxIdx
+                            , attackIndexes[0]);
+                        }
+                    }
+
+                    // 3. Jika tidak ada WISDOM atau ATTACK, pilih kartu sembarang (biasanya membuang kartu Defense)
+                    if (playedIndex === -1) {
+                        playedIndex = Math.floor(Math.random() * aiHand.length);
+                    }
+
+                    const playedCard = aiHand[playedIndex];
+                    const newAiHand = aiHand.filter((_, i) => i !== playedIndex);
+                    setAiHand(newAiHand);
+                    // ----------------------
 
                     if (playedCard.type === CARD_TYPES.ATTACK) {
                         setPendingAttack(playedCard);
                         setTurn('COUNTER'); 
-                        addLog(`⚠️ AWAS! Diserang! Ada kartu Hijau?`);
+                        addLog(`⚠️ ALERT! AI menyerang dengan jahat menggunakan ${playedCard.name}! Segera tangkis!`);
                     } else if (playedCard.type === CARD_TYPES.WISDOM) {
                         setAiMH(prev => Math.min(100, prev + playedCard.value));
-                        addLog(`AI: Pulih ${playedCard.value} MH.`);
+                        addLog(`🤖 AI meregenerasi sistem dengan ${playedCard.name}. (Pulih +${playedCard.value} MH)`);
                         setTurn('PLAYER');
                     } else {
-                        addLog(`AI: Bertahan (${playedCard.name}).`);
+                        addLog(`🛡️ AI mengaktifkan protokol pertahanan: ${playedCard.name}.`);
                         setTurn('PLAYER');
                     }
                 }, 1200);
@@ -197,29 +286,33 @@
 
                 if (turn === 'COUNTER') {
                     if (card.type === CARD_TYPES.DEFENSE && card.counters.includes(pendingAttack.category)) {
-                        addLog(`🛡️ BERHASIL: Menangkis pakai ${card.name}!`);
+                        addLog(`🛡️ LUAR BIASA! Serangan dipatahkan berkat ${card.name}!`);
                         setPlayerHand(newHand);
                         setPendingAttack(null);
+                        setDefenseError(null);
                         setTurn('PLAYER');
                     } else {
-                        addLog(`❌ GAGAL: ${card.name} tak mempan!`);
+                        const errorMsg = `❌ GAGAL! Pertahanan ${card.name} tembus! Bukan penangkal yang tepat.`;
+                        addLog(errorMsg);
+                        setDefenseError(errorMsg);
+                        // Hilangkan pesan error dari layar setelah 2.5 detik
+                        setTimeout(() => setDefenseError(null), 2500);
                     }
                     return;
                 }
 
                 setPlayerHand(newHand);
-                addLog(`Anda: ${card.name}`);
 
                 if (card.type === CARD_TYPES.ATTACK) {
                     const newAiMH = aiMH - card.value;
                     setAiMH(newAiMH);
-                    addLog(`💥 HIT! AI -${card.value} MH`);
+                    addLog(`💥 BOOM! Kamu membalas dengan ${card.name}! AI kena mental -${card.value} MH.`);
                     if (newAiMH <= 0) { setGameOver('PLAYER_WIN'); return; }
                 } else if (card.type === CARD_TYPES.WISDOM) {
                     setPlayerMH(prev => Math.min(100, prev + card.value));
-                    addLog(`💖 Pulih +${card.value} MH`);
+                    addLog(`✨ Tenang sejenak... ${card.name} memberimu kekuatan +${card.value} MH.`);
                 } else if (card.type === CARD_TYPES.DEFENSE) {
-                    addLog(`🛡️ Menyiapkan ${card.name}`);
+                    addLog(`🛡️ Kamu bersiap siaga dengan memasang ${card.name}.`);
                 }
 
                 setTurn('AI');
@@ -230,8 +323,9 @@
                 if (pendingAttack) {
                     const newPlayerMH = playerMH - pendingAttack.value;
                     setPlayerMH(newPlayerMH);
-                    addLog(`💔 Kena efek ${pendingAttack.name}! -${pendingAttack.value} MH`);
+                    addLog(`💔 Ouch! Pertahanan jebol oleh ${pendingAttack.name}! Kamu kehilangan -${pendingAttack.value} MH.`);
                     setPendingAttack(null);
+                    setDefenseError(null);
                     if (newPlayerMH <= 0) setGameOver('AI_WIN');
                     else setTurn('PLAYER');
                 }
@@ -305,20 +399,30 @@
                             
                             {/* POPUP ALERT - LAYOUT MENYAMPING KHUSUS AGAR MUAT DI LAYAR KECIL */}
                             {pendingAttack && (
-                                <div className="absolute inset-0 bg-slate-900/95 z-40 rounded-xl flex flex-row items-center justify-center p-2 gap-2 border-2 border-red-500 animate-soft-pulse">
-                                    {/* Kartu Serangan (Diperkecil dan disamping) */}
-                                    <div className="shrink-0 transform scale-90 sm:scale-100">
-                                        <Card card={pendingAttack} disabled={true} />
-                                    </div>
-                                    {/* Teks Instruksi */}
-                                    <div className="flex flex-col items-start justify-center text-left">
-                                        <h2 className="text-sm sm:text-lg font-black text-red-400 leading-none">⚠️ SERANGAN SIBER</h2>
-                                        <p className="text-[9px] sm:text-xs text-slate-300 my-1 font-medium leading-tight">
-                                            AI pakai <span className="text-white font-bold">{pendingAttack.name}</span>.<br/>Pilih kartu perlindungan Hijau dari tanganmu!
-                                        </p>
-                                        <button onClick={skipCounter} className="px-3 py-1.5 bg-slate-700 active:bg-slate-600 text-white text-[9px] sm:text-xs rounded font-bold border border-slate-500 mt-1">
-                                            Terima Kerusakan (Skip)
-                                        </button>
+                                <div className="absolute inset-0 bg-slate-900/95 z-40 rounded-xl flex flex-col items-center justify-center p-2 gap-2 border-2 border-red-500 animate-soft-pulse">
+                                    
+                                    {/* TAMPILAN ERROR KETIKA SALAH KARTU PELINDUNG */}
+                                    {defenseError && (
+                                        <div className="bg-red-600 text-white text-[10px] sm:text-xs font-bold px-4 py-1.5 rounded-full shadow-lg animate-bounce border border-red-400 text-center z-50">
+                                            {defenseError}
+                                        </div>
+                                    )}
+
+                                    <div className="flex flex-row items-center justify-center gap-2">
+                                        {/* Kartu Serangan (Diperkecil dan disamping) */}
+                                        <div className="shrink-0 transform scale-90 sm:scale-100">
+                                            <Card card={pendingAttack} disabled={true} />
+                                        </div>
+                                        {/* Teks Instruksi */}
+                                        <div className="flex flex-col items-start justify-center text-left">
+                                            <h2 className="text-sm sm:text-lg font-black text-red-400 leading-none">⚠️ SERANGAN SIBER</h2>
+                                            <p className="text-[9px] sm:text-xs text-slate-300 my-1 font-medium leading-tight">
+                                                AI pakai <span className="text-white font-bold">{pendingAttack.name}</span>.<br/>Pilih kartu pelindung DEFENSE dari tanganmu!
+                                            </p>
+                                            <button onClick={skipCounter} className="px-3 py-1.5 bg-slate-700 active:bg-slate-600 text-white text-[9px] sm:text-xs rounded font-bold border border-slate-500 mt-1">
+                                                Terima Kerusakan (Skip)
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             )}
@@ -392,36 +496,70 @@
                                 </div>
                                 
                                 {/* Isi Konten Modal (Bisa di-scroll) */}
-                                <div className="p-4 sm:p-5 overflow-y-auto space-y-5 text-[10px] sm:text-xs md:text-sm text-slate-300">
+                                <div className="p-4 sm:p-5 overflow-y-auto space-y-6 text-[10px] sm:text-xs md:text-sm text-slate-300">
                                     
                                     {/* Section 0: Siapa Lawanmu? */}
                                     <div className="bg-slate-900/70 p-3 rounded-lg border border-slate-700">
-                                        <h3 className="font-bold text-cyan-400 mb-1 flex items-center gap-1.5"><span className="text-base">🤖</span> Siapa Lawanmu?</h3>
+                                        <h3 className="font-bold text-cyan-400 mb-2 flex items-center gap-1.5"><span className="text-base">🤖</span> Siapa Lawanmu?</h3>
+                                        <div className="flex justify-center mb-3">
+                                            <div className="bg-slate-800 p-2 rounded-xl border border-slate-700 shadow flex items-center gap-2">
+                                                <div className="text-2xl">👾</div>
+                                                <div className="text-left">
+                                                    <h2 className="text-slate-400 text-[10px] font-bold">AI OPPONENT</h2>
+                                                    <div className="text-xs font-bold text-white">Sistem Anonim</div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <p>Dalam dimensi virtual ini, lawanmu disebut <strong>AI (Artificial Intelligence)</strong>. AI bertindak sebagai simulasi sistem komputer yang meniru perilaku penyerang, penyebar hoax, dan <em>cyberbully</em> di dunia nyata.</p>
                                     </div>
 
                                     {/* Section 1: MH */}
                                     <div>
-                                        <h3 className="font-bold text-white mb-1 flex items-center gap-1.5"><span className="text-base">❤️</span> Kesehatan Mental (MH)</h3>
-                                        <p>Lihat kotak indikator di layar. <strong className="text-emerald-400">Bar Hijau</strong> di bawah adalah MH kamu (Survivor), dan <strong className="text-red-400">Bar Merah</strong> di atas adalah MH AI. Buat MH AI menjadi 0 untuk menang, dan jangan biarkan MH kamu habis!</p>
+                                        <h3 className="font-bold text-white mb-2 flex items-center gap-1.5"><span className="text-base">❤️</span> Kesehatan Mental (MH)</h3>
+                                        <div className="bg-slate-900 p-3 rounded-lg border border-slate-700 mb-2 flex flex-col gap-3">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-[10px] w-12 text-right font-bold text-slate-400">AI MH</span>
+                                                <div className="w-full bg-slate-800 rounded-full h-2.5 shadow-inner"><div className="bg-red-500 h-full rounded-full w-[80%]"></div></div>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-[10px] w-12 text-right font-bold text-emerald-400">Your MH</span>
+                                                <div className="w-full bg-slate-800 rounded-full h-2.5 shadow-inner"><div className="bg-emerald-400 h-full rounded-full w-[50%]"></div></div>
+                                            </div>
+                                        </div>
+                                        <p>Lihat kotak indikator di layar. <strong className="text-emerald-400">Bar Hijau</strong> adalah MH kamu (Survivor), dan <strong className="text-red-400">Bar Merah</strong> adalah MH AI. Buat MH AI menjadi 0 untuk menang, dan jangan biarkan MH kamu habis!</p>
                                     </div>
 
                                     {/* Section 2: Draw & End */}
                                     <div>
-                                        <h3 className="font-bold text-blue-400 mb-1 flex items-center gap-1.5"><span className="text-base">🃏</span> Tombol Draw & End</h3>
+                                        <h3 className="font-bold text-blue-400 mb-2 flex items-center gap-1.5"><span className="text-base">🃏</span> Tombol Draw & End</h3>
+                                        <div className="flex justify-center gap-3 mb-3 bg-slate-900 py-3 rounded-lg border border-slate-700">
+                                            <button className="bg-blue-600 px-4 py-2 rounded font-bold text-xs text-white shadow-lg pointer-events-none">Draw</button>
+                                            <button className="bg-slate-600 px-4 py-2 rounded font-bold text-xs text-white shadow-lg pointer-events-none">End</button>
+                                        </div>
                                         <p>Klik tombol <strong>Draw</strong> untuk mengambil 1 kartu dari deck ke tanganmu (tangan maksimal berisi 6 kartu). Jika kamu sudah tidak ingin mengeluarkan kartu lagi, klik <strong>End</strong> untuk menyerahkan giliran ke AI.</p>
                                     </div>
 
                                     {/* Section 3: Menyerang */}
                                     <div>
-                                        <h3 className="font-bold text-red-400 mb-1 flex items-center gap-1.5"><span className="text-base">⚔️</span> Cara Menyerang</h3>
-                                        <p>Saat indikator menunjukkan "Giliran Anda", klik <strong>Kartu Merah (Attack)</strong> di tanganmu. Serangan otomatis akan memotong poin MH AI berdasarkan tingkat keparahan serangannya.</p>
+                                        <h3 className="font-bold text-red-400 mb-2 flex items-center gap-1.5"><span className="text-base">⚔️</span> Cara Menyerang (ATTACK)</h3>
+                                        <div className="flex justify-center mb-[-10px] mt-[-10px]">
+                                            <div className="scale-75"><Card card={CARD_DB.find(c => c.id === 'a2')} disabled={true} /></div>
+                                        </div>
+                                        <p>Saat indikator menunjukkan "Giliran Anda", klik <strong>Kartu ATTACK</strong> di tanganmu. Serangan otomatis akan memotong poin MH AI berdasarkan tingkat keparahannya.</p>
+                                        <div className="mt-2 p-2 bg-slate-900/80 rounded-lg border border-slate-700 text-[9px] sm:text-[10px] leading-relaxed">
+                                            <span className="text-red-400 font-bold block mb-1">Daftar Kartu Serangan (ATTACK):</span> 
+                                            <span className="text-slate-400">Flaming, Insulting, Spamming Hate, Threatening, Slurring, Mocking, Impersonation, Account Hijack, Doxing, Catfishing, Stalking, Privacy Breach, Shaming Photo, Meme-ing, Deepfake, Live Shaming, Status Mockery, Video Mocking, Group Kick-out, Silent Treat, Blacklisting, Exclusion, Hate Campaign, Voting Bully, Hoax Spreading, Cyber-baiting, Griefing, Dogpiling, False Report, Peer Pressure.</span>
+                                        </div>
                                     </div>
 
                                     {/* Section 4: Bertahan */}
                                     <div className="bg-slate-900 p-3 rounded-lg border border-slate-700">
-                                        <h3 className="font-bold text-emerald-400 mb-2 flex items-center gap-1.5"><span className="text-base">🛡️</span> Cara Bertahan (Tangkis)</h3>
-                                        <p className="mb-3">Saat AI balik menyerang, peringatan ⚠️ akan muncul berkedip di layar. Segera cari dan klik <strong>Kartu Hijau (Defense)</strong> di tanganmu yang memiliki label <em>"Bisa Menangkal"</em> sesuai dengan serangan AI.</p>
+                                        <h3 className="font-bold text-emerald-400 mb-2 flex items-center gap-1.5"><span className="text-base">🛡️</span> Cara Bertahan (DEFENSE)</h3>
+                                        <p className="mb-2">Saat AI balik menyerang, peringatan ⚠️ akan muncul berkedip di layar. Segera klik <strong>Kartu DEFENSE (Action Tool)</strong> di tanganmu yang memiliki label <em>"Bisa Menangkal"</em> sesuai dengan kategori serangan AI.</p>
+                                        <div className="p-2 bg-slate-800 rounded-lg border border-slate-600 text-[9px] sm:text-[10px] leading-relaxed mb-3">
+                                            <span className="text-emerald-400 font-bold block mb-1">Daftar Kartu Pelindung (DEFENSE):</span> 
+                                            <span className="text-slate-300">Kartu Lapor, Kartu Blokir, Kartu Privasi, Screenshot, Restrict, Turn Off Comm, Pass Protect.</span>
+                                        </div>
                                         <div className="flex items-center justify-center gap-2">
                                             <div className="scale-75 origin-right"><Card card={CARD_DB.find(c => c.id === 'a1')} disabled={true} /></div>
                                             <span className="text-base sm:text-lg shrink-0 text-white">➡️</span>
@@ -432,8 +570,15 @@
 
                                     {/* Section 5: Healing */}
                                     <div>
-                                        <h3 className="font-bold text-yellow-400 mb-1 flex items-center gap-1.5"><span className="text-base">💖</span> Pemulihan Mental</h3>
-                                        <p>Saat "Giliran Anda", kamu bisa mengklik <strong>Kartu Kuning (Wisdom)</strong> untuk beristirahat dan memulihkan poin MH kamu sendiri.</p>
+                                        <h3 className="font-bold text-yellow-400 mb-2 flex items-center gap-1.5"><span className="text-base">💖</span> Pemulihan Mental (WISDOM)</h3>
+                                        <div className="flex justify-center mb-[-10px] mt-[-10px]">
+                                            <div className="scale-75"><Card card={CARD_DB.find(c => c.id === 'w1')} disabled={true} /></div>
+                                        </div>
+                                        <p>Saat "Giliran Anda", kamu bisa mengklik <strong>Kartu WISDOM</strong> untuk beristirahat dan memulihkan poin MH kamu sendiri.</p>
+                                        <div className="mt-2 p-2 bg-slate-900/80 rounded-lg border border-slate-700 text-[9px] sm:text-[10px] leading-relaxed">
+                                            <span className="text-yellow-400 font-bold block mb-1">Daftar Kartu Pemulihan (WISDOM):</span> 
+                                            <span className="text-slate-400">Kartu Support, Verifikasi, Literasi, Think First, Digital Detox, Berani Bicara, Kartu Pause, Netizen Hijau.</span>
+                                        </div>
                                     </div>
 
                                 </div>
