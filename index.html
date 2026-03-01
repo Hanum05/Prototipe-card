@@ -14,7 +14,7 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f172a; color: white; overflow: hidden; touch-action: none; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; touch-action: none; background-color: #f8fafc; color: #0f172a; }
         .card-hover:hover { transform: translateY(-10px); z-index: 50; }
         .card-transition { transition: all 0.3s ease; }
         
@@ -31,14 +31,21 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Custom Scrollbar for Logs & Modals */
+        /* Custom Scrollbar for Logs & Modals (Auto Light/Dark) */
         ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: #1e293b; }
-        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        ::-webkit-scrollbar-track { background: #e2e8f0; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        @media (prefers-color-scheme: dark) {
+            body { background-color: #0f172a; color: white; }
+            ::-webkit-scrollbar-track { background: #1e293b; }
+            ::-webkit-scrollbar-thumb { background: #475569; }
+            ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-white font-sans overflow-hidden touch-none">
     <div id="root"></div>
 
     <script type="text/babel">
@@ -136,7 +143,7 @@
 
             if (hidden) {
                 return (
-                    <div className={`w-20 h-28 sm:w-24 sm:h-36 md:w-32 md:h-48 flex items-center justify-center card-transition flex-shrink-0 drop-shadow-lg ${imgError ? 'bg-slate-800 border-2 border-slate-600 rounded-xl' : ''}`}>
+                    <div className={`w-20 h-28 sm:w-24 sm:h-36 md:w-32 md:h-48 flex items-center justify-center card-transition flex-shrink-0 drop-shadow-lg ${imgError ? 'bg-slate-200 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-600 rounded-xl' : ''}`}>
                         <img 
                             src="Cover.png" 
                             alt="Cover" 
@@ -145,8 +152,8 @@
                             onError={() => setImgError(true)} 
                         />
                         {imgError && (
-                            <div className="w-14 h-22 sm:w-16 sm:h-28 md:w-24 md:h-40 border border-slate-700 rounded-lg flex items-center justify-center opacity-50 bg-slate-900 overflow-hidden">
-                                <span className="text-slate-500 font-bold tracking-[0.2em] md:tracking-widest text-[10px] sm:text-xs md:text-lg transform -rotate-90 md:rotate-0">CYB</span>
+                            <div className="w-14 h-22 sm:w-16 sm:h-28 md:w-24 md:h-40 border border-slate-300 dark:border-slate-700 rounded-lg flex items-center justify-center opacity-50 bg-slate-300 dark:bg-slate-900 overflow-hidden">
+                                <span className="text-slate-500 dark:text-slate-400 font-bold tracking-[0.2em] md:tracking-widest text-[10px] sm:text-xs md:text-lg transform -rotate-90 md:rotate-0">CYB</span>
                             </div>
                         )}
                     </div>
@@ -156,7 +163,7 @@
             return (
                 <div 
                     onClick={() => !disabled && onClick(card)}
-                    className={`w-24 h-36 sm:w-32 sm:h-48 md:w-36 md:h-52 flex flex-col card-transition flex-shrink-0 drop-shadow-xl ${disabled ? 'opacity-50 cursor-not-allowed' : 'card-hover cursor-pointer'} ${imgError ? card.color + ' rounded-xl border border-slate-900 overflow-hidden' : ''}`}
+                    className={`w-24 h-36 sm:w-32 sm:h-48 md:w-36 md:h-52 flex flex-col card-transition flex-shrink-0 drop-shadow-xl ${disabled ? 'opacity-50 cursor-not-allowed' : 'card-hover cursor-pointer'} ${imgError ? card.color + ' rounded-xl border border-slate-300 dark:border-slate-900 overflow-hidden' : ''}`}
                 >
                     <img 
                         src={`${card.name}.png`} 
@@ -367,26 +374,26 @@
 
             if (gameOver) {
                 return (
-                    <div className="flex flex-col items-center justify-center h-[100dvh] bg-slate-900 text-white p-4">
-                        <h1 className={`text-3xl md:text-5xl font-black mb-2 text-center ${gameOver === 'PLAYER_WIN' ? 'text-yellow-500' : 'text-red-500'}`}>
+                    <div className="flex flex-col items-center justify-center h-[100dvh] bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white p-4">
+                        <h1 className={`text-3xl md:text-5xl font-black mb-2 text-center ${gameOver === 'PLAYER_WIN' ? 'text-yellow-600 dark:text-yellow-500' : 'text-red-600 dark:text-red-500'}`}>
                             {gameOver === 'PLAYER_WIN' ? 'SIMULASI SELESAI' : '💀 MENTAL HABIS 💀'}
                         </h1>
                         
                         {gameOver === 'PLAYER_WIN' ? (
-                            <h2 className="text-xl md:text-2xl font-bold mb-6 text-emerald-400 text-center">
+                            <h2 className="text-xl md:text-2xl font-bold mb-6 text-emerald-600 dark:text-emerald-400 text-center">
                                 Kamu Menang, Tapi...
                             </h2>
                         ) : (
-                            <h2 className="text-xl md:text-2xl font-bold mb-6 text-rose-400 text-center">
+                            <h2 className="text-xl md:text-2xl font-bold mb-6 text-rose-600 dark:text-rose-400 text-center">
                                 Jangan Menyerah...
                             </h2>
                         )}
 
-                        <p className="text-sm md:text-lg mb-8 text-center max-w-2xl text-slate-300 italic leading-relaxed px-4">
+                        <p className="text-sm md:text-lg mb-8 text-center max-w-2xl text-slate-600 dark:text-slate-300 italic leading-relaxed px-4">
                             "{endText}"
                         </p>
                         
-                        <button onClick={() => window.location.reload()} className="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold shadow-lg transition">
+                        <button onClick={() => window.location.reload()} className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold shadow-lg transition">
                             Mulai Simulasi Baru
                         </button>
                     </div>
@@ -395,18 +402,18 @@
 
             // h-[100dvh] dan overflow-hidden MENGUNCI aplikasi agar seukuran layar utuh
             return (
-                <div className="flex flex-col h-[100dvh] w-full max-w-md md:max-w-4xl mx-auto px-2 py-2 overflow-hidden bg-slate-900 select-none">
+                <div className="flex flex-col h-[100dvh] w-full max-w-md md:max-w-4xl mx-auto px-2 py-2 overflow-hidden bg-slate-50 dark:bg-slate-900 select-none">
                     
                     {/* Header - Fixed Shrink-0 */}
-                    <div className="flex justify-between items-center bg-slate-800 p-2 rounded-xl border border-slate-700 shadow-md shrink-0">
+                    <div className="flex justify-between items-center bg-white dark:bg-slate-800 p-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-md shrink-0">
                         <div className="flex flex-col leading-tight">
-                            <h1 className="text-lg md:text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400 tracking-wider">
+                            <h1 className="text-lg md:text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-cyan-500 dark:from-emerald-400 dark:to-cyan-400 tracking-wider">
                                 CYBERIA
                             </h1>
-                            <span className="text-[7px] md:text-[10px] text-slate-400 italic">Eksplorasi Internet Aman</span>
+                            <span className="text-[7px] md:text-[10px] text-slate-500 dark:text-slate-400 italic">Eksplorasi Internet Aman</span>
                         </div>
                         <div className="flex gap-2 items-center">
-                            <div className={`px-2 py-1 rounded font-bold text-[9px] md:text-xs ${turn === 'PLAYER' ? 'bg-emerald-500 text-white' : turn === 'COUNTER' ? 'bg-red-500 animate-soft-pulse text-white' : 'bg-slate-600 text-slate-300'}`}>
+                            <div className={`px-2 py-1 rounded font-bold text-[9px] md:text-xs ${turn === 'PLAYER' ? 'bg-emerald-500 text-white' : turn === 'COUNTER' ? 'bg-red-500 animate-soft-pulse text-white' : 'bg-slate-200 text-slate-600 dark:bg-slate-600 dark:text-slate-300'}`}>
                                 {turn === 'PLAYER' ? 'Giliran Anda' : turn === 'COUNTER' ? 'TANGKIS!' : 'Giliran AI'}
                             </div>
                             <button onClick={() => setShowHelp(true)} className="flex items-center justify-center w-7 h-7 bg-blue-500 rounded-full text-white font-black shadow-lg">
@@ -418,9 +425,9 @@
                     {/* Arena - Dynamic Flex */}
                     <div className="flex-1 flex flex-col my-2 gap-2 min-h-0 relative">
                         
-                        {/* POPUP ALERT - OVERLAY FULL ARENA (SEKARANG DI LUAR LOG) */}
+                        {/* POPUP ALERT - OVERLAY FULL ARENA */}
                         {pendingAttack && (
-                            <div className="absolute inset-0 bg-slate-900/95 z-40 rounded-xl flex flex-col items-center justify-center p-4 border-2 border-red-500 shadow-[0_0_30px_rgba(239,68,68,0.3)] animate-soft-pulse backdrop-blur-sm">
+                            <div className="absolute inset-0 bg-white/95 dark:bg-slate-900/95 z-40 rounded-xl flex flex-col items-center justify-center p-4 border-2 border-red-500 shadow-[0_0_30px_rgba(239,68,68,0.3)] animate-soft-pulse backdrop-blur-sm">
                                 
                                 {/* TAMPILAN ERROR KETIKA SALAH KARTU PELINDUNG */}
                                 {defenseError && (
@@ -429,7 +436,7 @@
                                     </div>
                                 )}
 
-                                <h2 className="text-lg sm:text-2xl font-black text-red-400 mb-4 sm:mb-6 tracking-widest drop-shadow-md text-center">⚠️ SERANGAN SIBER ⚠️</h2>
+                                <h2 className="text-lg sm:text-2xl font-black text-red-500 dark:text-red-400 mb-4 sm:mb-6 tracking-widest drop-shadow-md text-center">⚠️ SERANGAN SIBER ⚠️</h2>
                                 
                                 <div className="flex flex-row items-center justify-center gap-3 sm:gap-6 w-full max-w-md px-1 sm:px-2">
                                     {/* Kartu Serangan (Di Sebelah Kiri) */}
@@ -438,14 +445,14 @@
                                     </div>
                                     
                                     {/* Keterangan (Di Sebelah Kanan Kartu) */}
-                                    <div className="flex-1 text-left bg-slate-800/90 p-3 sm:p-4 rounded-xl border border-slate-700 shadow-inner">
-                                        <p className="text-[10px] sm:text-xs md:text-sm text-slate-300 mb-2 font-medium">
-                                            AI menggunakan <span className="text-white font-bold text-xs sm:text-base">{pendingAttack.name}</span>!
+                                    <div className="flex-1 text-left bg-slate-100/90 dark:bg-slate-800/90 p-3 sm:p-4 rounded-xl border border-slate-300 dark:border-slate-700 shadow-inner">
+                                        <p className="text-[10px] sm:text-xs md:text-sm text-slate-700 dark:text-slate-300 mb-2 font-medium">
+                                            AI menggunakan <span className="text-slate-900 dark:text-white font-bold text-xs sm:text-base">{pendingAttack.name}</span>!
                                         </p>
-                                        <p className="text-[9px] sm:text-xs text-emerald-400 font-bold mb-3 animate-pulse leading-tight">
+                                        <p className="text-[9px] sm:text-xs text-emerald-600 dark:text-emerald-400 font-bold mb-3 animate-pulse leading-tight">
                                             Pilih kartu DEFENSE dari tanganmu untuk menangkis!
                                         </p>
-                                        <button onClick={skipCounter} className="w-full py-2.5 bg-slate-700 hover:bg-slate-600 active:bg-slate-500 text-white text-[9px] sm:text-xs rounded-lg font-bold border border-slate-500 transition-colors shadow">
+                                        <button onClick={skipCounter} className="w-full py-2.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 active:bg-slate-400 dark:active:bg-slate-500 text-slate-800 dark:text-white text-[9px] sm:text-xs rounded-lg font-bold border border-slate-300 dark:border-slate-500 transition-colors shadow">
                                             Terima Kerusakan (Skip)
                                         </button>
                                     </div>
@@ -455,12 +462,12 @@
 
                         {/* AI Stats - Shrink-0 */}
                         <div className="flex justify-between items-center shrink-0">
-                            <div className="bg-slate-800 p-2 rounded-xl border border-slate-700 w-24 sm:w-32 shadow">
-                                <h2 className="text-slate-400 text-[8px] md:text-xs font-bold mb-1 truncate">AI OPPONENT</h2>
-                                <div className="w-full bg-slate-900 rounded-full h-1.5 md:h-2 mb-1">
+                            <div className="bg-white dark:bg-slate-800 p-2 rounded-xl border border-slate-200 dark:border-slate-700 w-24 sm:w-32 shadow">
+                                <h2 className="text-slate-500 dark:text-slate-400 text-[8px] md:text-xs font-bold mb-1 truncate">AI OPPONENT</h2>
+                                <div className="w-full bg-slate-200 dark:bg-slate-900 rounded-full h-1.5 md:h-2 mb-1">
                                     <div className="bg-red-500 h-full rounded-full transition-all" style={{ width: `${Math.max(0, aiMH)}%` }}></div>
                                 </div>
-                                <div className="text-right text-[9px] md:text-xs font-bold">{Math.max(0, aiMH)} MH</div>
+                                <div className="text-right text-[9px] md:text-xs font-bold text-slate-800 dark:text-white">{Math.max(0, aiMH)} MH</div>
                             </div>
                             <div className="flex -space-x-10 sm:-space-x-12 overflow-hidden px-2">
                                 {aiHand.map((_, i) => <Card key={i} hidden={true} />)}
@@ -468,12 +475,12 @@
                         </div>
 
                         {/* Battle Log Center - Flex-1 dengan overflow scroll internal */}
-                        <div className="flex-1 bg-slate-800 rounded-xl border border-slate-700 p-2 relative flex flex-col min-h-0 overflow-hidden shadow-inner">
-                            <h3 className="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-widest shrink-0 border-b border-slate-700 pb-1 mb-1">Battle Log</h3>
+                        <div className="flex-1 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-2 relative flex flex-col min-h-0 overflow-hidden shadow-inner">
+                            <h3 className="text-slate-400 dark:text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-widest shrink-0 border-b border-slate-200 dark:border-slate-700 pb-1 mb-1">Battle Log</h3>
                             
                             <div className="flex-1 overflow-y-auto space-y-1 flex flex-col-reverse px-1">
                                 {logs.map((log, i) => (
-                                    <div key={i} className={`text-[10px] sm:text-xs p-1.5 rounded shrink-0 border-l-2 leading-tight ${i === 0 ? 'bg-slate-700 border-emerald-500 text-white font-medium shadow' : 'bg-transparent border-slate-600 text-slate-400'}`}>
+                                    <div key={i} className={`text-[10px] sm:text-xs p-1.5 rounded shrink-0 border-l-2 leading-tight ${i === 0 ? 'bg-slate-100 dark:bg-slate-700 border-emerald-500 text-slate-800 dark:text-white font-medium shadow' : 'bg-transparent border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400'}`}>
                                         {log}
                                     </div>
                                 ))}
@@ -482,18 +489,18 @@
 
                         {/* Player Stats - Shrink-0 */}
                         <div className="flex justify-between items-center shrink-0">
-                            <div className="bg-slate-800 p-2 rounded-xl border border-slate-700 w-24 sm:w-32 shadow">
-                                <h2 className="text-emerald-400 text-[8px] md:text-xs font-bold mb-1 truncate">SURVIVOR</h2>
-                                <div className="w-full bg-slate-900 rounded-full h-1.5 md:h-2 mb-1">
+                            <div className="bg-white dark:bg-slate-800 p-2 rounded-xl border border-slate-200 dark:border-slate-700 w-24 sm:w-32 shadow">
+                                <h2 className="text-emerald-600 dark:text-emerald-400 text-[8px] md:text-xs font-bold mb-1 truncate">SURVIVOR</h2>
+                                <div className="w-full bg-slate-200 dark:bg-slate-900 rounded-full h-1.5 md:h-2 mb-1">
                                     <div className="bg-emerald-400 h-full rounded-full transition-all" style={{ width: `${Math.max(0, playerMH)}%` }}></div>
                                 </div>
-                                <div className="text-right text-[9px] md:text-xs font-bold">{Math.max(0, playerMH)} MH</div>
+                                <div className="text-right text-[9px] md:text-xs font-bold text-slate-800 dark:text-white">{Math.max(0, playerMH)} MH</div>
                             </div>
                             <div className="flex gap-1">
-                                <button onClick={() => drawCard(true)} disabled={turn !== 'PLAYER' || playerHand.length >= 6} className="bg-blue-600 active:bg-blue-500 disabled:opacity-50 px-3 py-1.5 rounded font-bold text-[9px] sm:text-xs">
+                                <button onClick={() => drawCard(true)} disabled={turn !== 'PLAYER' || playerHand.length >= 6} className="bg-blue-600 active:bg-blue-500 text-white disabled:opacity-50 px-3 py-1.5 rounded font-bold text-[9px] sm:text-xs">
                                     Draw
                                 </button>
-                                <button onClick={endTurn} disabled={turn !== 'PLAYER'} className="bg-slate-600 active:bg-slate-500 disabled:opacity-50 px-3 py-1.5 rounded font-bold text-[9px] sm:text-xs">
+                                <button onClick={endTurn} disabled={turn !== 'PLAYER'} className="bg-slate-200 dark:bg-slate-600 active:bg-slate-300 dark:active:bg-slate-500 text-slate-800 dark:text-white disabled:opacity-50 px-3 py-1.5 rounded font-bold text-[9px] sm:text-xs">
                                     End
                                 </button>
                             </div>
@@ -501,8 +508,8 @@
                     </div>
 
                     {/* Player Hand - Shrink-0 - Tinggi diperbesar agar kartu muat */}
-                    <div className="shrink-0 h-44 sm:h-56 md:h-60 bg-slate-800 rounded-t-xl border-t border-slate-700 p-2 relative flex flex-col shadow-2xl">
-                        <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-slate-900 px-3 py-0.5 rounded-full border border-slate-600 text-[8px] md:text-[10px] font-bold text-slate-300 shadow z-10">
+                    <div className="shrink-0 h-44 sm:h-56 md:h-60 bg-slate-100 dark:bg-slate-800 rounded-t-xl border-t border-slate-300 dark:border-slate-700 p-2 relative flex flex-col shadow-[0_-10px_20px_rgba(0,0,0,0.05)] dark:shadow-2xl">
+                        <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-white dark:bg-slate-900 px-3 py-0.5 rounded-full border border-slate-300 dark:border-slate-600 text-[8px] md:text-[10px] font-bold text-slate-600 dark:text-slate-300 shadow z-10">
                             Tangan ({playerHand.length}/6)
                         </div>
                         <div className="flex-1 flex overflow-x-auto hide-scrollbar snap-x px-1 pt-3 pb-2 w-full items-center">
@@ -521,34 +528,34 @@
                                 ))}
                             </div>
                             {playerHand.length === 0 && (
-                                <div className="text-slate-500 text-[9px] sm:text-xs italic w-full text-center">Tangan Kosong. Draw Kartu.</div>
+                                <div className="text-slate-400 dark:text-slate-500 text-[9px] sm:text-xs italic w-full text-center">Tangan Kosong. Draw Kartu.</div>
                             )}
                         </div>
                     </div>
 
                     {/* Modal Tutorial / Bantuan */}
                     {showHelp && (
-                        <div className="fixed inset-0 bg-slate-900/95 z-[100] flex flex-col items-center justify-center p-4">
-                            <div className="bg-slate-800 rounded-xl w-full max-w-md mx-auto border border-slate-600 shadow-2xl relative flex flex-col max-h-[90dvh]">
-                                <button onClick={() => setShowHelp(false)} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-slate-700 hover:bg-red-500 rounded-full text-white font-bold z-10 transition">✕</button>
+                        <div className="fixed inset-0 bg-slate-100/95 dark:bg-slate-900/95 z-[100] flex flex-col items-center justify-center p-4">
+                            <div className="bg-white dark:bg-slate-800 rounded-xl w-full max-w-md mx-auto border border-slate-200 dark:border-slate-600 shadow-2xl relative flex flex-col max-h-[90dvh]">
+                                <button onClick={() => setShowHelp(false)} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-slate-200 dark:bg-slate-700 hover:bg-red-500 dark:hover:bg-red-500 text-slate-800 hover:text-white dark:text-white rounded-full font-bold z-10 transition">✕</button>
                                 
                                 {/* Header Modal */}
-                                <div className="p-4 sm:p-5 border-b border-slate-600 shrink-0">
-                                    <h2 className="text-lg sm:text-xl font-black text-emerald-400">Panduan CYBERIA</h2>
+                                <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-600 shrink-0">
+                                    <h2 className="text-lg sm:text-xl font-black text-emerald-600 dark:text-emerald-400">Panduan CYBERIA</h2>
                                 </div>
                                 
                                 {/* Isi Konten Modal (Bisa di-scroll) */}
-                                <div className="p-4 sm:p-5 overflow-y-auto space-y-6 text-[10px] sm:text-xs md:text-sm text-slate-300">
+                                <div className="p-4 sm:p-5 overflow-y-auto space-y-6 text-[10px] sm:text-xs md:text-sm text-slate-600 dark:text-slate-300">
                                     
                                     {/* Section 0: Siapa Lawanmu? */}
-                                    <div className="bg-slate-900/70 p-3 rounded-lg border border-slate-700">
-                                        <h3 className="font-bold text-cyan-400 mb-2 flex items-center gap-1.5"><span className="text-base">🤖</span> Siapa Lawanmu?</h3>
+                                    <div className="bg-slate-50 dark:bg-slate-900/70 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                        <h3 className="font-bold text-cyan-600 dark:text-cyan-400 mb-2 flex items-center gap-1.5"><span className="text-base">🤖</span> Siapa Lawanmu?</h3>
                                         <div className="flex justify-center mb-3">
-                                            <div className="bg-slate-800 p-2 rounded-xl border border-slate-700 shadow flex items-center gap-2">
+                                            <div className="bg-white dark:bg-slate-800 p-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow flex items-center gap-2">
                                                 <div className="text-2xl">👾</div>
                                                 <div className="text-left">
-                                                    <h2 className="text-slate-400 text-[10px] font-bold">AI OPPONENT</h2>
-                                                    <div className="text-xs font-bold text-white">Sistem Anonim</div>
+                                                    <h2 className="text-slate-500 dark:text-slate-400 text-[10px] font-bold">AI OPPONENT</h2>
+                                                    <div className="text-xs font-bold text-slate-900 dark:text-white">Sistem Anonim</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -557,77 +564,77 @@
 
                                     {/* Section 1: MH */}
                                     <div>
-                                        <h3 className="font-bold text-white mb-2 flex items-center gap-1.5"><span className="text-base">❤️</span> Kesehatan Mental (MH)</h3>
-                                        <div className="bg-slate-900 p-3 rounded-lg border border-slate-700 mb-2 flex flex-col gap-3">
+                                        <h3 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-1.5"><span className="text-base">❤️</span> Kesehatan Mental (MH)</h3>
+                                        <div className="bg-slate-50 dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-700 mb-2 flex flex-col gap-3">
                                             <div className="flex items-center gap-2">
-                                                <span className="text-[10px] w-12 text-right font-bold text-slate-400">AI MH</span>
-                                                <div className="w-full bg-slate-800 rounded-full h-2.5 shadow-inner"><div className="bg-red-500 h-full rounded-full w-[80%]"></div></div>
+                                                <span className="text-[10px] w-12 text-right font-bold text-slate-500 dark:text-slate-400">AI MH</span>
+                                                <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2.5 shadow-inner"><div className="bg-red-500 h-full rounded-full w-[80%]"></div></div>
                                             </div>
                                             <div className="flex items-center gap-2">
-                                                <span className="text-[10px] w-12 text-right font-bold text-emerald-400">Your MH</span>
-                                                <div className="w-full bg-slate-800 rounded-full h-2.5 shadow-inner"><div className="bg-emerald-400 h-full rounded-full w-[50%]"></div></div>
+                                                <span className="text-[10px] w-12 text-right font-bold text-emerald-600 dark:text-emerald-400">Your MH</span>
+                                                <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2.5 shadow-inner"><div className="bg-emerald-400 h-full rounded-full w-[50%]"></div></div>
                                             </div>
                                         </div>
-                                        <p className="text-justify">Lihat kotak indikator di layar. <strong className="text-emerald-400">Bar Hijau</strong> adalah MH kamu (Survivor), dan <strong className="text-red-400">Bar Merah</strong> adalah MH AI. Buat MH AI menjadi 0 untuk menang, dan jangan biarkan MH kamu habis!</p>
+                                        <p className="text-justify">Lihat kotak indikator di layar. <strong className="text-emerald-600 dark:text-emerald-400">Bar Hijau</strong> adalah MH kamu (Survivor), dan <strong className="text-red-500 dark:text-red-400">Bar Merah</strong> adalah MH AI. Buat MH AI menjadi 0 untuk menang, dan jangan biarkan MH kamu habis!</p>
                                     </div>
 
                                     {/* Section 2: Draw & End */}
                                     <div>
-                                        <h3 className="font-bold text-blue-400 mb-2 flex items-center gap-1.5"><span className="text-base">🃏</span> Tombol Draw & End</h3>
-                                        <div className="flex justify-center gap-3 mb-3 bg-slate-900 py-3 rounded-lg border border-slate-700">
+                                        <h3 className="font-bold text-blue-600 dark:text-blue-400 mb-2 flex items-center gap-1.5"><span className="text-base">🃏</span> Tombol Draw & End</h3>
+                                        <div className="flex justify-center gap-3 mb-3 bg-slate-50 dark:bg-slate-900 py-3 rounded-lg border border-slate-200 dark:border-slate-700">
                                             <button className="bg-blue-600 px-4 py-2 rounded font-bold text-xs text-white shadow-lg pointer-events-none">Draw</button>
-                                            <button className="bg-slate-600 px-4 py-2 rounded font-bold text-xs text-white shadow-lg pointer-events-none">End</button>
+                                            <button className="bg-slate-300 dark:bg-slate-600 px-4 py-2 rounded font-bold text-xs text-slate-800 dark:text-white shadow-lg pointer-events-none">End</button>
                                         </div>
                                         <p className="text-justify">Klik tombol <strong>Draw</strong> untuk mengambil 1 kartu dari deck ke tanganmu (tangan maksimal berisi 6 kartu). Jika kamu sudah tidak ingin mengeluarkan kartu lagi, klik <strong>End</strong> untuk menyerahkan giliran ke AI.</p>
                                     </div>
 
                                     {/* Section 3: Menyerang */}
                                     <div>
-                                        <h3 className="font-bold text-red-400 mb-2 flex items-center gap-1.5"><span className="text-base">⚔️</span> Cara Menyerang (ATTACK)</h3>
+                                        <h3 className="font-bold text-red-500 dark:text-red-400 mb-2 flex items-center gap-1.5"><span className="text-base">⚔️</span> Cara Menyerang (ATTACK)</h3>
                                         <div className="flex justify-center mb-[-10px] mt-[-10px]">
                                             <div className="scale-75"><Card card={CARD_DB.find(c => c.id === 'a2')} disabled={true} /></div>
                                         </div>
                                         <p className="text-justify">Saat indikator menunjukkan "Giliran Anda", klik <strong>Kartu ATTACK</strong> di tanganmu. Serangan otomatis akan memotong poin MH AI berdasarkan tingkat keparahannya.</p>
-                                        <div className="mt-2 p-2 bg-slate-900/80 rounded-lg border border-slate-700 text-[9px] sm:text-[10px] leading-relaxed text-justify">
-                                            <span className="text-red-400 font-bold block mb-1">Daftar Kartu Serangan (ATTACK):</span> 
-                                            <span className="text-slate-400">Flaming, Insulting, Spamming Hate, Threatening, Slurring, Mocking, Impersonation, Account Hijack, Doxing, Catfishing, Stalking, Privacy Breach, Shaming Photo, Meme-ing, Deepfake, Live Shaming, Status Mockery, Video Mocking, Group Kick-out, Silent Treat, Blacklisting, Exclusion, Hate Campaign, Voting Bully, Hoax Spreading, Cyber-baiting, Griefing, Dogpiling, False Report, Peer Pressure.</span>
+                                        <div className="mt-2 p-2 bg-slate-100 dark:bg-slate-900/80 rounded-lg border border-slate-200 dark:border-slate-700 text-[9px] sm:text-[10px] leading-relaxed text-justify">
+                                            <span className="text-red-600 dark:text-red-400 font-bold block mb-1">Daftar Kartu Serangan (ATTACK):</span> 
+                                            <span className="text-slate-500 dark:text-slate-400">Flaming, Insulting, Spamming Hate, Threatening, Slurring, Mocking, Impersonation, Account Hijack, Doxing, Catfishing, Stalking, Privacy Breach, Shaming Photo, Meme-ing, Deepfake, Live Shaming, Status Mockery, Video Mocking, Group Kick-out, Silent Treat, Blacklisting, Exclusion, Hate Campaign, Voting Bully, Hoax Spreading, Cyber-baiting, Griefing, Dogpiling, False Report, Peer Pressure.</span>
                                         </div>
                                     </div>
 
                                     {/* Section 4: Bertahan */}
-                                    <div className="bg-slate-900 p-3 rounded-lg border border-slate-700">
-                                        <h3 className="font-bold text-emerald-400 mb-2 flex items-center gap-1.5"><span className="text-base">🛡️</span> Cara Bertahan (DEFENSE)</h3>
+                                    <div className="bg-slate-50 dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                        <h3 className="font-bold text-emerald-600 dark:text-emerald-400 mb-2 flex items-center gap-1.5"><span className="text-base">🛡️</span> Cara Bertahan (DEFENSE)</h3>
                                         <p className="mb-2 text-justify">Saat AI balik menyerang, peringatan ⚠️ akan muncul berkedip di layar. Segera klik <strong>Kartu DEFENSE (Action Tool)</strong> di tanganmu yang memiliki label <em>"Bisa Menangkal"</em> sesuai dengan kategori serangan AI.</p>
-                                        <div className="p-2 bg-slate-800 rounded-lg border border-slate-600 text-[9px] sm:text-[10px] leading-relaxed mb-3 text-justify">
-                                            <span className="text-emerald-400 font-bold block mb-1">Daftar Kartu Pelindung (DEFENSE):</span> 
-                                            <span className="text-slate-300">Kartu Lapor, Kartu Blokir, Kartu Privasi, Screenshot, Restrict, Turn Off Comm, Pass Protect.</span>
+                                        <div className="p-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-600 text-[9px] sm:text-[10px] leading-relaxed mb-3 text-justify">
+                                            <span className="text-emerald-600 dark:text-emerald-400 font-bold block mb-1">Daftar Kartu Pelindung (DEFENSE):</span> 
+                                            <span className="text-slate-600 dark:text-slate-300">Kartu Lapor, Kartu Blokir, Kartu Privasi, Screenshot, Restrict, Turn Off Comm, Pass Protect.</span>
                                         </div>
                                         <div className="flex items-center justify-center gap-2">
                                             <div className="scale-75 origin-right"><Card card={CARD_DB.find(c => c.id === 'a1')} disabled={true} /></div>
-                                            <span className="text-base sm:text-lg shrink-0 text-white">➡️</span>
+                                            <span className="text-base sm:text-lg shrink-0 text-slate-800 dark:text-white">➡️</span>
                                             <div className="scale-75 origin-left"><Card card={CARD_DB.find(c => c.id === 'd1')} disabled={true} /></div>
                                         </div>
-                                        <p className="text-[9px] sm:text-[10px] text-center mt-[-10px] text-slate-400">Contoh: Flaming (Agresi Verbal) ditangkis oleh Kartu Blokir.</p>
+                                        <p className="text-[9px] sm:text-[10px] text-center mt-[-10px] text-slate-500 dark:text-slate-400">Contoh: Flaming (Agresi Verbal) ditangkis oleh Kartu Blokir.</p>
                                     </div>
 
                                     {/* Section 5: Healing */}
                                     <div>
-                                        <h3 className="font-bold text-yellow-400 mb-2 flex items-center gap-1.5"><span className="text-base">💖</span> Pemulihan Mental (WISDOM)</h3>
+                                        <h3 className="font-bold text-yellow-600 dark:text-yellow-400 mb-2 flex items-center gap-1.5"><span className="text-base">💖</span> Pemulihan Mental (WISDOM)</h3>
                                         <div className="flex justify-center mb-[-10px] mt-[-10px]">
                                             <div className="scale-75"><Card card={CARD_DB.find(c => c.id === 'w1')} disabled={true} /></div>
                                         </div>
                                         <p className="text-justify">Saat "Giliran Anda", kamu bisa mengklik <strong>Kartu WISDOM</strong> untuk beristirahat dan memulihkan poin MH kamu sendiri.</p>
-                                        <div className="mt-2 p-2 bg-slate-900/80 rounded-lg border border-slate-700 text-[9px] sm:text-[10px] leading-relaxed text-justify">
-                                            <span className="text-yellow-400 font-bold block mb-1">Daftar Kartu Pemulihan (WISDOM):</span> 
-                                            <span className="text-slate-400">Kartu Support, Verifikasi, Literasi, Think First, Digital Detox, Berani Bicara, Kartu Pause, Netizen Hijau.</span>
+                                        <div className="mt-2 p-2 bg-slate-100 dark:bg-slate-900/80 rounded-lg border border-slate-200 dark:border-slate-700 text-[9px] sm:text-[10px] leading-relaxed text-justify">
+                                            <span className="text-yellow-600 dark:text-yellow-400 font-bold block mb-1">Daftar Kartu Pemulihan (WISDOM):</span> 
+                                            <span className="text-slate-500 dark:text-slate-400">Kartu Support, Verifikasi, Literasi, Think First, Digital Detox, Berani Bicara, Kartu Pause, Netizen Hijau.</span>
                                         </div>
                                     </div>
 
                                     {/* Section 6: Pesan Moral & Kesimpulan */}
-                                    <div className="bg-gradient-to-br from-indigo-900/80 to-purple-900/80 p-3 sm:p-4 rounded-xl border border-indigo-400/50 shadow-lg mt-4 relative overflow-hidden">
+                                    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/80 dark:to-purple-900/80 p-3 sm:p-4 rounded-xl border border-indigo-200 dark:border-indigo-400/50 shadow-lg mt-4 relative overflow-hidden">
                                         <div className="absolute top-0 right-0 p-2 opacity-20 text-4xl pointer-events-none">💡</div>
-                                        <h3 className="font-bold text-indigo-300 mb-2 flex items-center gap-1.5"><span className="text-base">✨</span> Makna Simulasi</h3>
-                                        <p className="text-slate-200 leading-relaxed text-[10px] sm:text-xs text-justify">
+                                        <h3 className="font-bold text-indigo-700 dark:text-indigo-300 mb-2 flex items-center gap-1.5"><span className="text-base">✨</span> Makna Simulasi</h3>
+                                        <p className="text-slate-700 dark:text-slate-200 leading-relaxed text-[10px] sm:text-xs text-justify">
                                             Dari daftar kartu di atas, kita bisa melihat betapa banyaknya bentuk kejahatan siber (<strong>cyberbullying</strong>) yang mengintai. Seringkali, cara mereka menyerang terasa jauh lebih banyak daripada cara kita melawan. 
                                             <br/><br/>
                                             Namun jangan takut! Dengan <strong>mengenali jenis-jenis ancaman tersebut</strong> dan mengerti <strong>cara bertahan serta memulihkan diri</strong> melalui simulasi ini, kamu sudah selangkah lebih siap. Pengetahuan sekecil apa pun yang kamu pelajari di sini akan menjadi tameng mental yang sangat berharga untuk melindungi dirimu dan teman-temanmu di kehidupan nyata. <em>Stay safe and be kind!</em>
@@ -637,7 +644,7 @@
                                 </div>
 
                                 {/* Footer Modal */}
-                                <div className="p-4 border-t border-slate-600 shrink-0">
+                                <div className="p-4 border-t border-slate-200 dark:border-slate-600 shrink-0">
                                     <button onClick={() => setShowHelp(false)} className="w-full py-2.5 bg-emerald-600 active:bg-emerald-500 rounded-lg text-white font-bold shadow transition">Saya Mengerti!</button>
                                 </div>
                             </div>
