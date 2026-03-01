@@ -205,7 +205,7 @@
             const [gameOver, setGameOver] = React.useState(false);
             const [showHelp, setShowHelp] = React.useState(false);
             const [defenseError, setDefenseError] = React.useState(null);
-            const [winText, setWinText] = React.useState(''); // State baru untuk menyimpan kata-kata moral
+            const [endText, setEndText] = React.useState(''); // State disesuaikan untuk Win maupun Lose
 
             React.useEffect(() => {
                 const initialDeck = generateDeck();
@@ -317,8 +317,7 @@
                             "AI hancur berkeping-keping. Kamu selamat dengan cara membalas rasa sakit dengan rasa sakit. Namun, membalas cyberbullying dengan bullying balasan tidak akan pernah menyelesaikan masalah.",
                             "Selamat, kamu bertahan. Namun lihatlah sisa-sisa kehancuran mental lawanmu. Jika kamu meniru cara mereka menyakitimu, apa bedanya dirimu dengan para pembully tersebut?"
                         ];
-                        // Pilih salah satu pesan secara acak
-                        setWinText(winMessages[Math.floor(Math.random() * winMessages.length)]);
+                        setEndText(winMessages[Math.floor(Math.random() * winMessages.length)]);
                         setGameOver('PLAYER_WIN'); 
                         return; 
                     }
@@ -340,8 +339,21 @@
                     addLog(`💔 Ouch! Pertahanan jebol oleh ${pendingAttack.name}! Kamu kehilangan -${pendingAttack.value} MH.`);
                     setPendingAttack(null);
                     setDefenseError(null);
-                    if (newPlayerMH <= 0) setGameOver('AI_WIN');
-                    else setTurn('PLAYER');
+                    
+                    if (newPlayerMH <= 0) {
+                        // Kumpulan variasi pesan dukungan dan pembelajaran saat pemain "kalah"
+                        const loseMessages = [
+                            "Simulasi berakhir, pertahananmu runtuh. Ingatlah, di dunia nyata selalu ada tempat untuk meminta tolong. Jangan pernah menghadapi para pembully sendirian, beranilah berbicara.",
+                            "Kesehatan mentalmu terkuras habis. Ini adalah pengingat bahwa kata-kata jahat bisa sangat menyakitkan. Jika kamu merasa terpuruk, lakukan Digital Detox dan cari Kartu Support-mu di dunia nyata.",
+                            "Kamu kalah kali ini. Tapi ketahuilah, nilai dirimu sama sekali tidak ditentukan oleh ketikan kasar dari layar kaca. Ambil waktu jeda, pulihkan energimu, dan kembalilah lebih kuat.",
+                            "Pertahanan siber jebol. Menghadapi kebencian memang melelahkan dan menguras emosi. Di kehidupan nyata, memblokir mereka dan mencari ruang aman adalah kemenangan yang sesungguhnya.",
+                            "Sistemmu tumbang oleh serangan toxic. Jangan biarkan mereka menang di hatimu. Kegagalan di sini mengajarkan betapa pentingnya dukungan nyata dari orang-orang yang peduli padamu."
+                        ];
+                        setEndText(loseMessages[Math.floor(Math.random() * loseMessages.length)]);
+                        setGameOver('AI_WIN');
+                    } else {
+                        setTurn('PLAYER');
+                    }
                 }
             };
 
@@ -360,17 +372,21 @@
                             {gameOver === 'PLAYER_WIN' ? 'SIMULASI SELESAI' : '💀 MENTAL HABIS 💀'}
                         </h1>
                         
-                        {gameOver === 'PLAYER_WIN' && (
+                        {gameOver === 'PLAYER_WIN' ? (
                             <h2 className="text-xl md:text-2xl font-bold mb-6 text-emerald-400 text-center">
                                 Kamu Menang, Tapi...
+                            </h2>
+                        ) : (
+                            <h2 className="text-xl md:text-2xl font-bold mb-6 text-rose-400 text-center">
+                                Jangan Menyerah...
                             </h2>
                         )}
 
                         <p className="text-sm md:text-lg mb-8 text-center max-w-2xl text-slate-300 italic leading-relaxed px-4">
-                            {gameOver === 'PLAYER_WIN' ? `"${winText}"` : 'Jangan menyerah. Di dunia nyata, segera cari dukungan (Kartu Support) atau Berani Bicara.'}
+                            "{endText}"
                         </p>
                         
-                        <button onClick={() => window.location.reload()} className="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold shadow-lg">
+                        <button onClick={() => window.location.reload()} className="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold shadow-lg transition">
                             Mulai Simulasi Baru
                         </button>
                     </div>
@@ -536,7 +552,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <p>Dalam dimensi virtual ini, lawanmu disebut <strong>AI (Artificial Intelligence)</strong>. AI bertindak sebagai simulasi sistem komputer yang meniru perilaku penyerang, penyebar hoax, dan <em>cyberbully</em> di dunia nyata.</p>
+                                        <p className="text-justify">Dalam dimensi virtual ini, lawanmu disebut <strong>AI (Artificial Intelligence)</strong>. AI bertindak sebagai simulasi sistem komputer yang meniru perilaku penyerang, penyebar hoax, dan <em>cyberbully</em> di dunia nyata.</p>
                                     </div>
 
                                     {/* Section 1: MH */}
@@ -552,7 +568,7 @@
                                                 <div className="w-full bg-slate-800 rounded-full h-2.5 shadow-inner"><div className="bg-emerald-400 h-full rounded-full w-[50%]"></div></div>
                                             </div>
                                         </div>
-                                        <p>Lihat kotak indikator di layar. <strong className="text-emerald-400">Bar Hijau</strong> adalah MH kamu (Survivor), dan <strong className="text-red-400">Bar Merah</strong> adalah MH AI. Buat MH AI menjadi 0 untuk menang, dan jangan biarkan MH kamu habis!</p>
+                                        <p className="text-justify">Lihat kotak indikator di layar. <strong className="text-emerald-400">Bar Hijau</strong> adalah MH kamu (Survivor), dan <strong className="text-red-400">Bar Merah</strong> adalah MH AI. Buat MH AI menjadi 0 untuk menang, dan jangan biarkan MH kamu habis!</p>
                                     </div>
 
                                     {/* Section 2: Draw & End */}
@@ -562,7 +578,7 @@
                                             <button className="bg-blue-600 px-4 py-2 rounded font-bold text-xs text-white shadow-lg pointer-events-none">Draw</button>
                                             <button className="bg-slate-600 px-4 py-2 rounded font-bold text-xs text-white shadow-lg pointer-events-none">End</button>
                                         </div>
-                                        <p>Klik tombol <strong>Draw</strong> untuk mengambil 1 kartu dari deck ke tanganmu (tangan maksimal berisi 6 kartu). Jika kamu sudah tidak ingin mengeluarkan kartu lagi, klik <strong>End</strong> untuk menyerahkan giliran ke AI.</p>
+                                        <p className="text-justify">Klik tombol <strong>Draw</strong> untuk mengambil 1 kartu dari deck ke tanganmu (tangan maksimal berisi 6 kartu). Jika kamu sudah tidak ingin mengeluarkan kartu lagi, klik <strong>End</strong> untuk menyerahkan giliran ke AI.</p>
                                     </div>
 
                                     {/* Section 3: Menyerang */}
@@ -571,8 +587,8 @@
                                         <div className="flex justify-center mb-[-10px] mt-[-10px]">
                                             <div className="scale-75"><Card card={CARD_DB.find(c => c.id === 'a2')} disabled={true} /></div>
                                         </div>
-                                        <p>Saat indikator menunjukkan "Giliran Anda", klik <strong>Kartu ATTACK</strong> di tanganmu. Serangan otomatis akan memotong poin MH AI berdasarkan tingkat keparahannya.</p>
-                                        <div className="mt-2 p-2 bg-slate-900/80 rounded-lg border border-slate-700 text-[9px] sm:text-[10px] leading-relaxed">
+                                        <p className="text-justify">Saat indikator menunjukkan "Giliran Anda", klik <strong>Kartu ATTACK</strong> di tanganmu. Serangan otomatis akan memotong poin MH AI berdasarkan tingkat keparahannya.</p>
+                                        <div className="mt-2 p-2 bg-slate-900/80 rounded-lg border border-slate-700 text-[9px] sm:text-[10px] leading-relaxed text-justify">
                                             <span className="text-red-400 font-bold block mb-1">Daftar Kartu Serangan (ATTACK):</span> 
                                             <span className="text-slate-400">Flaming, Insulting, Spamming Hate, Threatening, Slurring, Mocking, Impersonation, Account Hijack, Doxing, Catfishing, Stalking, Privacy Breach, Shaming Photo, Meme-ing, Deepfake, Live Shaming, Status Mockery, Video Mocking, Group Kick-out, Silent Treat, Blacklisting, Exclusion, Hate Campaign, Voting Bully, Hoax Spreading, Cyber-baiting, Griefing, Dogpiling, False Report, Peer Pressure.</span>
                                         </div>
@@ -581,8 +597,8 @@
                                     {/* Section 4: Bertahan */}
                                     <div className="bg-slate-900 p-3 rounded-lg border border-slate-700">
                                         <h3 className="font-bold text-emerald-400 mb-2 flex items-center gap-1.5"><span className="text-base">🛡️</span> Cara Bertahan (DEFENSE)</h3>
-                                        <p className="mb-2">Saat AI balik menyerang, peringatan ⚠️ akan muncul berkedip di layar. Segera klik <strong>Kartu DEFENSE (Action Tool)</strong> di tanganmu yang memiliki label <em>"Bisa Menangkal"</em> sesuai dengan kategori serangan AI.</p>
-                                        <div className="p-2 bg-slate-800 rounded-lg border border-slate-600 text-[9px] sm:text-[10px] leading-relaxed mb-3">
+                                        <p className="mb-2 text-justify">Saat AI balik menyerang, peringatan ⚠️ akan muncul berkedip di layar. Segera klik <strong>Kartu DEFENSE (Action Tool)</strong> di tanganmu yang memiliki label <em>"Bisa Menangkal"</em> sesuai dengan kategori serangan AI.</p>
+                                        <div className="p-2 bg-slate-800 rounded-lg border border-slate-600 text-[9px] sm:text-[10px] leading-relaxed mb-3 text-justify">
                                             <span className="text-emerald-400 font-bold block mb-1">Daftar Kartu Pelindung (DEFENSE):</span> 
                                             <span className="text-slate-300">Kartu Lapor, Kartu Blokir, Kartu Privasi, Screenshot, Restrict, Turn Off Comm, Pass Protect.</span>
                                         </div>
@@ -600,8 +616,8 @@
                                         <div className="flex justify-center mb-[-10px] mt-[-10px]">
                                             <div className="scale-75"><Card card={CARD_DB.find(c => c.id === 'w1')} disabled={true} /></div>
                                         </div>
-                                        <p>Saat "Giliran Anda", kamu bisa mengklik <strong>Kartu WISDOM</strong> untuk beristirahat dan memulihkan poin MH kamu sendiri.</p>
-                                        <div className="mt-2 p-2 bg-slate-900/80 rounded-lg border border-slate-700 text-[9px] sm:text-[10px] leading-relaxed">
+                                        <p className="text-justify">Saat "Giliran Anda", kamu bisa mengklik <strong>Kartu WISDOM</strong> untuk beristirahat dan memulihkan poin MH kamu sendiri.</p>
+                                        <div className="mt-2 p-2 bg-slate-900/80 rounded-lg border border-slate-700 text-[9px] sm:text-[10px] leading-relaxed text-justify">
                                             <span className="text-yellow-400 font-bold block mb-1">Daftar Kartu Pemulihan (WISDOM):</span> 
                                             <span className="text-slate-400">Kartu Support, Verifikasi, Literasi, Think First, Digital Detox, Berani Bicara, Kartu Pause, Netizen Hijau.</span>
                                         </div>
@@ -611,7 +627,7 @@
                                     <div className="bg-gradient-to-br from-indigo-900/80 to-purple-900/80 p-3 sm:p-4 rounded-xl border border-indigo-400/50 shadow-lg mt-4 relative overflow-hidden">
                                         <div className="absolute top-0 right-0 p-2 opacity-20 text-4xl pointer-events-none">💡</div>
                                         <h3 className="font-bold text-indigo-300 mb-2 flex items-center gap-1.5"><span className="text-base">✨</span> Makna Simulasi</h3>
-                                        <p className="text-slate-200 leading-relaxed text-[10px] sm:text-xs">
+                                        <p className="text-slate-200 leading-relaxed text-[10px] sm:text-xs text-justify">
                                             Dari daftar kartu di atas, kita bisa melihat betapa banyaknya bentuk kejahatan siber (<strong>cyberbullying</strong>) yang mengintai. Seringkali, cara mereka menyerang terasa jauh lebih banyak daripada cara kita melawan. 
                                             <br/><br/>
                                             Namun jangan takut! Dengan <strong>mengenali jenis-jenis ancaman tersebut</strong> dan mengerti <strong>cara bertahan serta memulihkan diri</strong> melalui simulasi ini, kamu sudah selangkah lebih siap. Pengetahuan sekecil apa pun yang kamu pelajari di sini akan menjadi tameng mental yang sangat berharga untuk melindungi dirimu dan teman-temanmu di kehidupan nyata. <em>Stay safe and be kind!</em>
