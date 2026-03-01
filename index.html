@@ -205,6 +205,7 @@
             const [gameOver, setGameOver] = React.useState(false);
             const [showHelp, setShowHelp] = React.useState(false);
             const [defenseError, setDefenseError] = React.useState(null);
+            const [winText, setWinText] = React.useState(''); // State baru untuk menyimpan kata-kata moral
 
             React.useEffect(() => {
                 const initialDeck = generateDeck();
@@ -307,7 +308,20 @@
                     const newAiMH = aiMH - card.value;
                     setAiMH(newAiMH);
                     addLog(`💥 BOOM! Kamu membalas dengan ${card.name}! AI kena mental -${card.value} MH.`);
-                    if (newAiMH <= 0) { setGameOver('PLAYER_WIN'); return; }
+                    if (newAiMH <= 0) { 
+                        // Kumpulan variasi pesan moral saat pemain "menang"
+                        const winMessages = [
+                            "Kamu memenangkan simulasi ini, tapi dengan menghancurkan mental lawan hingga tak tersisa. Di dunia nyata, membalas kejahatan dengan kekejaman membuatmu tak ada bedanya dengan pembully itu sendiri.",
+                            "Sistem AI tumbang. Namun sadarkah kamu? Mengalahkan perilaku toxic dengan serangan yang sama toxic-nya hanya akan melahirkan pelaku baru. Membalas dendam bukanlah keadilan.",
+                            "Kemenangan mutlak... Tapi ingat, di dunia nyata, menghancurkan mental seseorang demi kepuasan balas dendam adalah tindakan yang sama jahatnya. Menang tanpa menjatuhkan adalah kemenangan sejati.",
+                            "AI hancur berkeping-keping. Kamu selamat dengan cara membalas rasa sakit dengan rasa sakit. Namun, membalas cyberbullying dengan bullying balasan tidak akan pernah menyelesaikan masalah.",
+                            "Selamat, kamu bertahan. Namun lihatlah sisa-sisa kehancuran mental lawanmu. Jika kamu meniru cara mereka menyakitimu, apa bedanya dirimu dengan para pembully tersebut?"
+                        ];
+                        // Pilih salah satu pesan secara acak
+                        setWinText(winMessages[Math.floor(Math.random() * winMessages.length)]);
+                        setGameOver('PLAYER_WIN'); 
+                        return; 
+                    }
                 } else if (card.type === CARD_TYPES.WISDOM) {
                     setPlayerMH(prev => Math.min(100, prev + card.value));
                     addLog(`✨ Tenang sejenak... ${card.name} memberimu kekuatan +${card.value} MH.`);
@@ -342,12 +356,20 @@
             if (gameOver) {
                 return (
                     <div className="flex flex-col items-center justify-center h-[100dvh] bg-slate-900 text-white p-4">
-                        <h1 className="text-3xl md:text-5xl font-black mb-4 text-center text-emerald-400">
-                            {gameOver === 'PLAYER_WIN' ? '🎉 ANDA MENANG! 🎉' : '💀 MENTAL HABIS 💀'}
+                        <h1 className={`text-3xl md:text-5xl font-black mb-2 text-center ${gameOver === 'PLAYER_WIN' ? 'text-yellow-500' : 'text-red-500'}`}>
+                            {gameOver === 'PLAYER_WIN' ? 'SIMULASI SELESAI' : '💀 MENTAL HABIS 💀'}
                         </h1>
-                        <p className="text-sm md:text-xl mb-8 text-center max-w-md text-slate-300">
-                            {gameOver === 'PLAYER_WIN' ? 'Anda berhasil bertahan dari toxic cyberbullying di dimensi virtual ini!' : 'Jangan menyerah. Di dunia nyata, segera cari dukungan (Kartu Support) atau Berani Bicara.'}
+                        
+                        {gameOver === 'PLAYER_WIN' && (
+                            <h2 className="text-xl md:text-2xl font-bold mb-6 text-emerald-400 text-center">
+                                Kamu Menang, Tapi...
+                            </h2>
+                        )}
+
+                        <p className="text-sm md:text-lg mb-8 text-center max-w-2xl text-slate-300 italic leading-relaxed px-4">
+                            {gameOver === 'PLAYER_WIN' ? `"${winText}"` : 'Jangan menyerah. Di dunia nyata, segera cari dukungan (Kartu Support) atau Berani Bicara.'}
                         </p>
+                        
                         <button onClick={() => window.location.reload()} className="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold shadow-lg">
                             Mulai Simulasi Baru
                         </button>
