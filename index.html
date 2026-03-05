@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CYBERIA - Main Menu</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            overflow: hidden; 
+            touch-action: none; 
+        }
+
+        /* Animasi Background Gradient Mengalir */
+        .bg-animated {
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #064e3b, #0f766e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Efek Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Mode Terang (Light Mode Fallback) */
+        @media (prefers-color-scheme: light) {
+            .bg-animated {
+                background: linear-gradient(-45deg, #f8fafc, #e2e8f0, #a7f3d0, #99f6e4);
+                background-size: 400% 400%;
+            }
+            .glass-panel {
+                background: rgba(255, 255, 255, 0.6);
+                border: 1px solid rgba(255, 255, 255, 0.4);
+            }
+            .text-glow {
+                text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+            }
+        }
+
+        /* Glow Text untuk Dark Mode */
+        @media (prefers-color-scheme: dark) {
+            .text-glow {
+                text-shadow: 0 0 15px rgba(52, 211, 153, 0.5);
+            }
+        }
+        
+        /* Custom Scrollbar untuk Modal Koleksi */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+    </style>
+</head>
+<body class="bg-animated text-slate-900 dark:text-white flex items-center justify-center h-[100dvh] relative">
+
+    <!-- Dekorasi Background (Lingkaran Blur) -->
+    <div class="absolute top-10 left-10 w-32 h-32 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-10 right-10 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- Main Container -->
+    <div class="glass-panel w-11/12 max-w-md p-8 rounded-3xl flex flex-col items-center relative z-10 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/20">
+        
+        <!-- Logo / Title -->
+        <div class="mb-10 text-center">
+            <h1 class="text-5xl md:text-6xl font-black mb-2 tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-cyan-500 dark:from-emerald-400 dark:to-cyan-400 text-glow">
+                CYBERIA
+            </h1>
+            <p class="text-sm md:text-base text-slate-600 dark:text-slate-300 font-medium tracking-wider uppercase">
+                Cerdas Yakin Berani: Eksplorasi Ruang Internet Aman
+            </p>
+        </div>
+
+        <!-- Menu Container -->
+        <div id="menu-container" class="w-full relative min-h-[230px]">
+            <!-- Main Menu Buttons -->
+            <div id="main-menu-options" class="w-full flex flex-col gap-4 absolute top-0 left-0 transition-all duration-300 translate-x-0">
+                <!-- Tombol Mulai yang memicu fungsi JS -->
+                <button onclick="showPlayModes()" class="group relative w-full flex justify-center py-4 px-4 border border-transparent text-lg font-bold rounded-xl text-white bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transform transition-all hover:-translate-y-1 shadow-lg hover:shadow-emerald-500/50">
+                    Mulai Simulasi
+                    <span class="absolute right-4 opacity-0 group-hover:opacity-100 transition-opacity">🚀</span>
+                </button>
+
+                <!-- Tombol Koleksi Kartu -->
+                <button onclick="showCollection()" class="w-full py-3 px-4 rounded-xl font-bold text-slate-700 dark:text-slate-200 bg-white/20 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-600 hover:bg-white/40 dark:hover:bg-slate-700/60 transition-all shadow-sm">
+                    Koleksi Kartu
+                </button>
+
+                <!-- Tombol Tentang Proyek -->
+                <button onclick="showAbout()" class="w-full py-3 px-4 rounded-xl font-bold text-slate-700 dark:text-slate-200 bg-white/20 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-600 hover:bg-white/40 dark:hover:bg-slate-700/60 transition-all shadow-sm">
+                    Tentang Proyek
+                </button>
+            </div>
+
+            <!-- Play Mode Options (Awalnya tersembunyi di sebelah kanan) -->
+            <div id="play-mode-options" class="w-full flex flex-col gap-4 absolute top-0 left-0 transition-all duration-300 opacity-0 pointer-events-none translate-x-10">
+                <h3 class="text-center font-bold text-slate-700 dark:text-slate-200 mb-1 text-sm uppercase tracking-widest">Pilih Mode</h3>
+                
+                <a href="2p.html" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-base font-bold rounded-xl text-white bg-emerald-600 hover:bg-emerald-500 shadow-md hover:shadow-emerald-500/50 transition-all transform hover:-translate-y-1">
+                    <span class="mr-2">👤</span> 1 vs 1
+                </a>
+                
+                <a href="4p.html" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-base font-bold rounded-xl text-white bg-cyan-600 hover:bg-cyan-500 shadow-md hover:shadow-cyan-500/50 transition-all transform hover:-translate-y-1">
+                    <span class="mr-2">👥</span> 4 Player
+                </a>
+                
+                <button onclick="showMainMenu()" class="w-full py-2 px-4 mt-1 rounded-xl font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white bg-transparent hover:bg-slate-200 dark:hover:bg-slate-800 transition-all">
+                    ← Kembali ke Menu Utama
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-12 text-center">
+            <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                © 2026 CYBERIA Project.<br>All systems ready.
+            </p>
+        </div>
+    </div>
+
+    <!-- MODAL KOLEKSI KARTU (FULLSCREEN) -->
+    <div id="collection-modal" class="fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-xl hidden flex-col overflow-y-auto w-full h-full p-4 md:p-8 transition-opacity opacity-0 duration-300">
+        
+        <!-- Header Modal Koleksi -->
+        <div class="flex justify-between items-center mb-6 sticky top-0 bg-slate-900/90 py-4 px-2 z-10 border-b border-slate-700">
+            <h2 class="text-2xl md:text-4xl font-black text-white tracking-widest text-glow">KOLEKSI KARTU</h2>
+            <button onclick="hideCollection()" class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 md:px-6 rounded-xl transition-all shadow-lg hover:shadow-red-500/50">
+                Kembali
+            </button>
+        </div>
+        
+        <!-- Kontainer Gambar Kartu (Dinamis dari JS) -->
+        <div id="collection-content" class="pb-10 max-w-6xl mx-auto w-full px-2">
+            <!-- Konten digenerate via Javascript di bawah -->
+        </div>
+
+    </div>
+
+    <!-- MODAL TENTANG PROYEK (FULLSCREEN) -->
+    <div id="about-modal" class="fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-xl hidden flex-col overflow-y-auto w-full h-full p-4 md:p-8 transition-opacity opacity-0 duration-300">
+        
+        <!-- Header Modal Tentang Proyek -->
+        <div class="flex justify-between items-center mb-6 sticky top-0 bg-slate-900/90 py-4 px-2 z-10 border-b border-slate-700">
+            <h2 class="text-2xl md:text-4xl font-black text-white tracking-widest text-glow">TENTANG</h2>
+            <button onclick="hideAbout()" class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 md:px-6 rounded-xl transition-all shadow-lg hover:shadow-red-500/50">
+                Kembali
+            </button>
+        </div>
+        
+        <!-- Kontainer Teks (Tulis Teksmu Di Sini) -->
+        <div class="pb-10 max-w-4xl mx-auto w-full px-4 sm:px-6 text-slate-200">
+            
+            <!-- JUDUL -->
+            <h1 class="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-4">
+                CYBERIA
+            </h1>
+            
+            <!-- SUB JUDUL -->
+            <h3 class="text-xl md:text-2xl font-bold text-emerald-500 mb-8">
+                Cerdas Yakin Berani: Eksplorasi Ruang Internet Aman
+            </h3>
+            
+            <!-- ISI PARAGRAF -->
+            <div class="space-y-6 text-sm md:text-base md:text-lg leading-relaxed text-slate-300 text-justify">
+                <p>
+                    CYBERIA adalah permainan kartu simulasi edukatif yang mengajak pemain memahami berbagai bentuk perilaku negatif yang sering terjadi di dunia digital, khususnya cyberbullying. Dalam permainan ini, pemain akan menghadapi berbagai situasi yang merepresentasikan ancaman nyata di internet, seperti penghinaan, penyebaran hoaks, manipulasi identitas, pengucilan sosial, hingga provokasi yang sering muncul di media sosial dan ruang daring lainnya.
+                </p>
+                <p>
+                    Melalui tiga jenis kartu utama yaitu Attack, Defense, dan Wisdom, pemain diajak untuk mengenali bagaimana serangan siber dapat terjadi sekaligus mempelajari cara meresponsnya dengan tepat. Kartu Attack menggambarkan berbagai bentuk cyberbullying yang dapat merusak kesehatan mental, kartu Defense menunjukkan cara melindungi diri seperti memblokir atau melaporkan pelaku, sedangkan kartu Wisdom mengajarkan sikap bijak dalam menggunakan internet, seperti berpikir sebelum memposting, memverifikasi informasi, dan saling memberi dukungan.
+                </p>
+                <p>
+                    Selama permainan, pemain harus menjaga Mental Health (MH) agar tidak habis akibat serangan digital dari lawan. Pemain perlu menentukan strategi kapan harus menyerang, bertahan, atau memulihkan diri. Melalui permainan ini, pemain diharapkan dapat memahami pentingnya literasi digital, empati, serta tanggung jawab saat berinteraksi di dunia maya, karena pengetahuan dan sikap bijak merupakan perlindungan terbaik dalam menghadapi tantangan di dunia digital.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Script Navigasi & Koleksi Kartu -->
+    <script>
+        // --- LOGIKA MENU UTAMA ---
+        function showPlayModes() {
+            const mainOpts = document.getElementById('main-menu-options');
+            const playOpts = document.getElementById('play-mode-options');
+            
+            mainOpts.classList.add('opacity-0', 'pointer-events-none', '-translate-x-10');
+            mainOpts.classList.remove('translate-x-0');
+            
+            playOpts.classList.remove('opacity-0', 'pointer-events-none', 'translate-x-10');
+            playOpts.classList.add('translate-x-0');
+        }
+
+        function showMainMenu() {
+            const mainOpts = document.getElementById('main-menu-options');
+            const playOpts = document.getElementById('play-mode-options');
+            
+            playOpts.classList.add('opacity-0', 'pointer-events-none', 'translate-x-10');
+            playOpts.classList.remove('translate-x-0');
+            
+            mainOpts.classList.remove('opacity-0', 'pointer-events-none', '-translate-x-10');
+            mainOpts.classList.add('translate-x-0');
+        }
+
+        // --- LOGIKA KOLEKSI KARTU ---
+        
+        // Data Struktur Koleksi Kartu (Sesuai Permintaan)
+        const cardData = [
+            {
+                mainType: "ATTACK",
+                subTypes: [
+                    {
+                        title: "Agresi Verbal",
+                        // Merah dark terang (glow)
+                        colorClass: "text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.8)]", 
+                        cards: ["Flaming", "Insulting", "Spamming Hate", "Threatening", "Slurring", "Mocking"]
+                    },
+                    {
+                        title: "Identitas",
+                        // Biru cyan terang (glow)
+                        colorClass: "text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]", 
+                        cards: ["Impersonation", "Account Hijack", "Doxing", "Catfishing", "Stalking", "Privacy Breach"]
+                    },
+                    {
+                        title: "Manipulasi",
+                        // Ungu dark glow
+                        colorClass: "text-purple-500 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]", 
+                        cards: ["Shaming Photo", "Meme-ing", "Deepfake", "Live Shaming", "Status Mockery", "Video Mocking"]
+                    },
+                    {
+                        title: "Pengucilan",
+                        // Abu abu gelap (Tanpa glow berlebih)
+                        colorClass: "text-slate-500", 
+                        cards: ["Group Kick-out", "Silent Treat", "Blacklisting", "Exclusion", "Hate Campaign", "Voting Bully"]
+                    },
+                    {
+                        title: "Provokasi",
+                        // Orange glow
+                        colorClass: "text-orange-500 drop-shadow-[0_0_10px_rgba(249,115,22,0.8)]", 
+                        cards: ["Hoax Spreading", "Cyber-baiting", "Griefing", "Dogpiling", "False Report", "Peer Pressure"]
+                    }
+                ]
+            },
+            {
+                mainType: "DEFENSE",
+                subTypes: [
+                    {
+                        title: "Action Tools",
+                        // Hijau segar
+                        colorClass: "text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]", 
+                        cards: ["Kartu Lapor", "Kartu Blokir", "Kartu Privasi", "Screenshot", "Restrict", "Turn Off Comm", "Pass Protect"]
+                    }
+                ]
+            },
+            {
+                mainType: "WISDOM",
+                subTypes: [
+                    {
+                        title: "Healing",
+                        // Kuning glow
+                        colorClass: "text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.8)]", 
+                        cards: ["Kartu Support", "Verifikasi", "Literasi", "Think First", "Digital Detox", "Berani Bicara", "Kartu Pause", "Netizen Hijau"]
+                    }
+                ]
+            },
+            {
+                mainType: "LAINNYA",
+                subTypes: [
+                    {
+                        title: "", // Sengaja dikosongkan agar tidak ada judul duplikat
+                        colorClass: "text-white", 
+                        cards: ["Cover"]
+                    }
+                ]
+            }
+        ];
+
+        // Fungsi Render HTML Koleksi
+        function renderCollection() {
+            const container = document.getElementById('collection-content');
+            let htmlContent = '';
+
+            cardData.forEach(type => {
+                // Judul Tipe Utama (ATTACK, DEFENSE, WISDOM, LAINNYA)
+                htmlContent += `
+                    <div class="mt-12 mb-6 border-b-2 border-slate-700/50 pb-2">
+                        <h2 class="text-3xl md:text-5xl font-black text-slate-700 dark:text-slate-600 tracking-[0.2em] text-center uppercase">
+                            ${type.mainType}
+                        </h2>
+                    </div>
+                `;
+                
+                type.subTypes.forEach(sub => {
+                    // Judul Subtipe (Agresi Verbal, dll) dengan warna khusus
+                    if (sub.title) {
+                        htmlContent += `<h3 class="text-xl md:text-2xl font-black mb-4 mt-8 ${sub.colorClass} tracking-wider uppercase text-center md:text-left">${sub.title}</h3>`;
+                    }
+                    
+                    // Grid 4 Kolom (Menyamping 4 baris)
+                    // Menggunakan rounded-none dan border-none murni untuk gambar PNG
+                    htmlContent += `
+                        <div class="grid grid-cols-4 gap-2 md:gap-4 lg:gap-6 mb-8">
+                            ${sub.cards.map(card => `
+                                <div class="flex flex-col items-center justify-start group">
+                                    <img 
+                                        src="${card}.png" 
+                                        alt="${card}" 
+                                        class="w-full h-auto object-contain rounded-none border-none transition-transform duration-300 group-hover:scale-105 group-hover:-translate-y-2 drop-shadow-xl"
+                                        onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'200\\' height=\\'300\\'><rect width=\\'200\\' height=\\'300\\' fill=\\'%23333\\'/><text x=\\'100\\' y=\\'150\\' fill=\\'white\\' text-anchor=\\'middle\\' font-family=\\'sans-serif\\' font-size=\\'14\\'>${card}</text></svg>'"
+                                    >
+                                    <span class="text-[8px] md:text-xs text-slate-500 mt-2 text-center hidden md:block opacity-0 group-hover:opacity-100 transition-opacity">${card}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                });
+            });
+
+            container.innerHTML = htmlContent;
+        }
+
+        // Fungsi Membuka Modal
+        function showCollection() {
+            renderCollection(); // Generate gambar saat tombol diklik
+            const modal = document.getElementById('collection-modal');
+            modal.classList.remove('hidden');
+            // Sedikit jeda agar transisi opacity bekerja
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 10);
+        }
+
+        // Fungsi Menutup Modal
+        function hideCollection() {
+            const modal = document.getElementById('collection-modal');
+            modal.classList.add('opacity-0');
+            // Tunggu animasi selesai baru di-hidden
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // --- LOGIKA TENTANG PROYEK ---
+        function showAbout() {
+            const modal = document.getElementById('about-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 10);
+        }
+
+        function hideAbout() {
+            const modal = document.getElementById('about-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
