@@ -226,7 +226,18 @@
                     newPlayers[pid].hand = initialDeck.splice(0, 5);
                 });
                 
-                let seq = ['PLAYER', 'Alpha', 'Beta', 'Gamma'].sort(() => Math.random() - 0.5);
+                // Peluang 50% Pemain mendapatkan giliran pertama
+                let isPlayerFirst = Math.random() < 0.5;
+                let aiList = ['Alpha', 'Beta', 'Gamma'].sort(() => Math.random() - 0.5);
+                let seq = [];
+                
+                if (isPlayerFirst) {
+                    seq = ['PLAYER', ...aiList];
+                } else {
+                    let firstAI = aiList.shift();
+                    let remaining = ['PLAYER', ...aiList].sort(() => Math.random() - 0.5);
+                    seq = [firstAI, ...remaining];
+                }
                 
                 setPlayers(newPlayers);
                 setDeck(initialDeck);
@@ -596,7 +607,7 @@
                             <h1 className="text-lg md:text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-cyan-500 dark:from-emerald-400 dark:to-cyan-400 tracking-wider">
                                 CYBERIA
                             </h1>
-                            <span className="text-[7px] md:text-[10px] text-slate-500 dark:text-slate-400 italic">Cerdas Yakin Berani: Eksplorasi Ruang Internet Aman</span>
+                            <span className="text-[7px] md:text-[10px] text-slate-500 dark:text-slate-400 italic">Arena Bert</span>
                         </div>
                         <div className="flex gap-2 items-center">
                             <div className={`px-2 py-1 rounded font-bold text-[9px] md:text-xs ${currentTurnId === 'PLAYER' && !players.PLAYER.isDead ? 'bg-emerald-500 text-white' : turnState === 'COUNTER' ? 'bg-red-500 animate-soft-pulse text-white' : 'bg-slate-200 text-slate-600 dark:bg-slate-600 dark:text-slate-300'}`}>
@@ -719,7 +730,7 @@
                                 <div className="text-right text-[10px] md:text-xs font-bold text-slate-800 dark:text-white">{Math.max(0, players.PLAYER.mh)} MH</div>
                             </div>
                             <div className="flex gap-1">
-                                <button onClick={drawCardPlayer} disabled={currentTurnId !== 'PLAYER' || turnState !== 'PLAYING' || players.PLAYER.isDead} className="bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white disabled:opacity-50 px-4 py-2 rounded-lg font-bold text-[10px] sm:text-xs shadow transition">
+                                <button onClick={drawCardPlayer} disabled={currentTurnId !== 'PLAYER' || turnState !== 'PLAYING' || players.PLAYER.isDead || players.PLAYER.hand.length >= 6} className="bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white disabled:opacity-50 px-4 py-2 rounded-lg font-bold text-[10px] sm:text-xs shadow transition">
                                     Draw
                                 </button>
                                 <button onClick={endTurnPlayer} disabled={currentTurnId !== 'PLAYER' || turnState !== 'PLAYING' || players.PLAYER.isDead} className="bg-slate-200 hover:bg-slate-300 dark:bg-slate-600 dark:hover:bg-slate-500 text-slate-800 dark:text-white disabled:opacity-50 px-4 py-2 rounded-lg font-bold text-[10px] sm:text-xs shadow transition">
