@@ -314,7 +314,7 @@
                             ${sub.cards.map(card => `
                                 <div class="flex flex-col items-center justify-start group">
                                     <img 
-                                        src="${card}.png" 
+                                        src="${encodeURIComponent(card)}.png" 
                                         alt="${card}" 
                                         class="w-full h-auto object-contain rounded-none border-none transition-transform duration-300 group-hover:scale-105 group-hover:-translate-y-2 drop-shadow-xl"
                                         onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'200\\' height=\\'300\\'><rect width=\\'200\\' height=\\'300\\' fill=\\'%23333\\'/><text x=\\'100\\' y=\\'150\\' fill=\\'white\\' text-anchor=\\'middle\\' font-family=\\'sans-serif\\' font-size=\\'14\\'>${card}</text></svg>'"
